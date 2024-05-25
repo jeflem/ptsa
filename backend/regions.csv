@@ -1,0 +1,4 @@
+code,admin_level,name,meters_crs,ignore
+be,2,Belgium,meters_crs,EPSG:31300,0
+de,2,Germany,meters_crs,EPSG:5243,1
+lu,2,Luxembourg,meters_crs,EPSG:2169,0
