@@ -2,6 +2,7 @@ import json
 import logging
 import numpy as np
 import pandas as pd
+import time
 
 
 # load config file
@@ -35,7 +36,8 @@ regions = pd.read_csv(
         'admin_level': np.uint8,
         'name': str,
         'meters_crs': str,
-        'ignore': bool
+        'ignore': bool,
+        'timestamp': np.uint64
     }
 )
 logger.info(f'found {len(regions)} regions')
@@ -63,8 +65,12 @@ for code in regions.index:
         logger.info(f'ignoring region {region['name']} ({code})')
         continue
     logger.info(f'processing region {region['name']} ({code})')
+    regions.loc[code, 'timestamp'] = int(time.time())
     # TODO: process region
     
     # disable logging to region's log file
     region_logger.removeHandler(file_handler)
     del file_handler
+
+# update regions data
+regions.to_csv(config['regions_path'])

@@ -1,4 +1,4 @@
-code,admin_level,name,meters_crs,ignore
-be,2,Belgium,EPSG:31300,0
-de,2,Germany,EPSG:5243,1
-lu,2,Luxembourg,EPSG:2169,0
+code,admin_level,name,meters_crs,ignore,timestamp
+be,2,Belgium,EPSG:31300,False,1716651442
+de,2,Germany,EPSG:5243,True,0
+lu,2,Luxembourg,EPSG:2169,False,1716651442
