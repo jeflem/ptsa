@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Map 1</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="leaflet.css" />
+    <link rel="stylesheet" href="map.css" />
+    <script src="leaflet.js"></script>
+    <script src="leaflet_vectorgrid_bundled.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>PTSA - Public Transport Stop Analysis for OSM</h1>
+        <p id="logo">TODO<p>
+        <p id="imprint">todo | todo | todo<p>
+    </header>
+    <div id="content">
+        <div id="sidebar">
+            <button type="button" onclick="toggle_sidebar()" id="sb_button">toggle sidebar</button>
+            <div class="sidebar_content">
+                <h1>Modalities</h1>
+                <div style="overflow:hidden;">
+                    <div style="width: 50%; float: left;">
+                        <div onclick="redraw()"><input id="mod_bus" type="checkbox" name="mod_bus" checked /><label for="mod_bus">bus</label></div>
+                        <div onclick="redraw()"><input id="mod_trolleybus" type="checkbox" name="mod_trolleybus" checked /><label for="mod_trolleybus">trolleybus</label></div>
+                        <div onclick="redraw()"><input id="mod_share_taxi" type="checkbox" name="mod_share_taxi" checked /><label for="mod_share_taxi">share taxi</label></div>
+                        <div onclick="redraw()"><input id="mod_tram" type="checkbox" name="mod_tram" checked /><label for="mod_tram">tram</label></div>
+                        <div onclick="redraw()"><input id="mod_light_rail" type="checkbox" name="mod_light_rail" checked /><label for="mod_light_rail">light rail</label></div>
+                        <div onclick="redraw()"><input id="mod_train" type="checkbox" name="mod_train" checked /><label for="mod_train">train</label></div>
+                    </div>
+                    <div style="width: 50%; float: right;">
+                        <div onclick="redraw()"><input id="mod_monorail" type="checkbox" name="mod_monorail" checked /><label for="mod_monorail">monorail</label></div>
+                        <div onclick="redraw()"><input id="mod_subway" type="checkbox" name="mod_subway" checked /><label for="mod_subway">subway</label></div>
+                        <div onclick="redraw()"><input id="mod_funicular" type="checkbox" name="mod_funicular" checked /><label for="mod_funicular">funicular</label></div>
+                        <div onclick="redraw()"><input id="mod_ferry" type="checkbox" name="mod_ferry" checked /><label for="mod_ferry">ferry</label></div>
+                        <div onclick="redraw()"><input id="mod_aerialway" type="checkbox" name="mod_aerialway" checked /><label for="mod_aerialway">aerialway</label></div>
+                        <div onclick="redraw()"><input id="mod_none" type="checkbox" name="mod_none" checked /><label for="mod_none">none</label></div>
+                    </div>
+                </div>
+
+                <h1>Coloring</h1>
+                <div onclick="redraw()"><input id="warn" type="radio" name="color" checked /><label for="warn">warnings, comments</label></div>
+                <div onclick="redraw()" class="indented"><input id="warn_warn" type="checkbox" name="warn_warn" checked /><label for="warn_warn"><span style="color: #ff0000;"> ●</span> has warnings</label></div>
+                <div onclick="redraw()" class="indented"><input id="warn_comm" type="checkbox" name="warn_comm" checked /><label for="warn_comm"><span style="color: #ffff00;"> ●</span> has comments</label></div>
+                <div onclick="redraw()" class="indented"><input id="warn_none" type="checkbox" name="warn_none" checked /><label for="warn_none"><span style="color: #00ff00;"> ●</span> no warnings/comments</label></div>
+
+                <div onclick="redraw()"><input id="render" type="radio" name="color" /><label for="render">Carto rendering (bus only)</label></div>
+                <div onclick="redraw()" class="indented"><input id="render_no" type="checkbox" name="render_no" checked /><label for="render_no"><span style="color: #ff0000;"> ●</span> no bus symbol</label></div>
+                <div onclick="redraw()" class="indented"><input id="render_inc" type="checkbox" name="render_inc" checked /><label for="render_inc"><span style="color: #ffff00;"> ●</span> incorrect bus symbol</label></div>
+                <div onclick="redraw()" class="indented"><input id="render_station" type="checkbox" name="render_station" checked /><label for="render_station"><span style="color: #00ffC0;"> ●</span> acceptable</label></div>
+                <div onclick="redraw()" class="indented"><input id="render_good" type="checkbox" name="render_good" checked /><label for="render_good"><span style="color: #00ff00;"> ●</span> good</label></div>
+
+                <div onclick="redraw()"><input id="ptv2" type="radio" name="color" /><label for="ptv2">new PTv2 tags</label></div>
+                <div onclick="redraw()" class="indented"><input id="ptv2_no" type="checkbox" name="ptv2_no" checked /><label for="ptv2_no"><span style="color: #ff0000;"> ●</span> no PTv2 tags</label></div>
+                <div onclick="redraw()" class="indented"><input id="ptv2_mix" type="checkbox" name="ptv2_mix" checked /><label for="ptv2_mix"><span style="color: #ffff00;"> ●</span> mixed</label></div>
+                <div onclick="redraw()" class="indented"><input id="ptv2_yes" type="checkbox" name="ptv2_yes" checked /><label for="ptv2_yes"><span style="color: #00ff00;"> ●</span> PTv2 tags</label></div>
+                
+                <div onclick="redraw()"><input id="struct" type="radio" name="color" /><label for="struct">stop structure</label></div>
+                <div onclick="redraw()" class="indented"><input id="struct_s" type="checkbox" name="struct_s" checked /><label for="struct_s"><span style="color: #ffff00;"> ●</span> stop position only</label></div>
+                <div onclick="redraw()" class="indented"><input id="struct_sp" type="checkbox" name="struct_sp" checked /><label for="struct_sp"><span style="color: #0000ff;"> ●</span> stop pos with pole</label></div>
+                <div onclick="redraw()" class="indented"><input id="struct_sf" type="checkbox" name="struct_sf" checked /><label for="struct_sf"><span style="color: #0000ff;"> ●</span> stop pos with platform</label></div>
+                <div onclick="redraw()" class="indented"><input id="struct_spf" type="checkbox" name="struct_spf" checked /><label for="struct_spf"><span style="color: #00ffff;"> ●</span> stop pos, pole, platform</label></div>
+                <div onclick="redraw()" class="indented"><input id="struct_p" type="checkbox" name="struct_p" checked /><label for="struct_p"><span style="color: #ffff00;"> ●</span> pole only</label></div>
+                <div onclick="redraw()" class="indented"><input id="struct_f" type="checkbox" name="struct_f" checked /><label for="struct_f"><span style="color: #ffff00;"> ●</span> platform only</label></div>
+                <div onclick="redraw()" class="indented"><input id="struct_pf" type="checkbox" name="struct_pf" checked /><label for="struct_pf"><span style="color: #ff0000;"> ●</span> pole and platform</label></div>
+
+                <h1>Objects</h1>
+                <div onclick="redraw()"><input id="dubobs" type="checkbox" name="dubobs" /><label for="dubobs"><span style="color: #ff00ff;"> ●</span> dubious objects</label></div>
+                <div onclick="redraw()"><input id="stopos" type="checkbox" name="stopos" checked /><label for="stopos">stop positions</label></div>
+                <div onclick="redraw()"><input id="poles" type="checkbox" name="poles" checked /><label for="poles">poles</label></div>
+                <div onclick="redraw()"><input id="vpoles" type="checkbox" name="vpoles" /><label for="vpoles">virtual poles</label></div>
+                <div onclick="redraw()"><input id="plafos" type="checkbox" name="plafos" checked /><label for="plafos">platforms</label></div>
+                <div onclick="redraw()"><input id="stops" type="checkbox" name="stops" checked /><label for="stops">stops</label></div>
+
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+    <script src="map.js"></script>
+</body>
+
+</html>

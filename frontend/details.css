@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: sans;
+}
+
+#map {
+    height: 400px;
+    width: 400px;
+    background: #808080;
+    z-index: 0;
+    box-sizing: border-box;
+}
+
+.map_label {
+    padding: 1px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+h1 {
+    margin-top: 0;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+.box {
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+td.vertical {
+    writing-mode: tb-rl;
+    vertical-align: bottom;
+}
+
+thead td {
+    font-weight: bold;
+}
+
+#mods td {
+    text-align: center;
+    padding: 5px;
+}
+
+td.head {
+    font-weight: bold;
+    text-align: right;
+}
+
+#mods td.red {
+    color: #ff0000;
+}
+
+#mods td.yellow {
+    color: #ffff00;
+}
+
+#mods td.green {
+    color: #00ff00;
+}
+
+#plafo table, #pole table, #plole table {
+    border-collapse: collapse;
+}
+
+#plafo td, #pole td, #plole td {
+    text-align: left;
+    padding: 5px;
+    border:1px solid #808080;
+}
+
+#plafo td.red, #pole td.red, #plole td.red {
+    background-color: #ff8080;
+}
+
+
+#plafo td.yellow, #pole td.yellow {
+    background-color: #ffff80;
+}
+
+
+#plafo td.green, #pole td.green, #plole td.green {
+    background-color: #80ff80;
+}

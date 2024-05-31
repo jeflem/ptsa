@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Stop details</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="leaflet.css" />
+    <link rel="stylesheet" href="details.css" />
+    <script src="leaflet.js"></script>
+    <script src="leaflet_vectorgrid_bundled.js"></script>
+</head>
+
+<body>
+    <h1>Stop details</h1>
+    <div id="map" class="box"></div>
+    <div id="mods" class="box">
+        <h2>Modalities</h2>
+        <table>
+            <thead id="mods_thead">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="vertical">bus</td>
+                    <td class="vertical">trolley bus</td>
+                    <td class="vertical">share taxi</td>
+                    <td class="vertical">tram</td>
+                    <td class="vertical">light rail</td>
+                    <td class="vertical">train</td>
+                    <td class="vertical">monorail</td>
+                    <td class="vertical">subway</td>
+                    <td class="vertical">funicular</td>
+                    <td class="vertical">ferry</td>
+                    <td class="vertical">aerialway</td>
+                </tr>
+            </thead>
+            <tbody id="mods_tbody">
+            </tbody>
+        </table>
+    </div>
+    <div id="plafo" class="box">
+        <h2>Stop positions for platform</h2>
+        <table>
+            <thead id="plafo_thead">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>mods</td>
+                    <td>ref:IFOPT</td>
+                    <td>ref</td>
+                    <td>local_ref</td>
+                    <td>ref_name</td>
+                    <td>name</td>
+                    <td>score</td>
+                </tr>
+            </thead>
+            <tbody id="plafo_tbody">
+            </tbody>
+        </table>
+    </div>
+    <div id="pole" class="box">
+        <h2>Stop positions for pole</h2>
+        <table>
+            <thead id="pole_thead">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>mods</td>
+                    <td>ref:IFOPT</td>
+                    <td>ref</td>
+                    <td>local_ref</td>
+                    <td>ref_name</td>
+                    <td>name</td>
+                    <td>score</td>
+                </tr>
+            </thead>
+            <tbody id="pole_tbody">
+            </tbody>
+        </table>
+    </div>
+    <div id="plole" class="box">
+        <h2>Stop positions for plole</h2>
+        <table>
+            <thead id="plole_thead">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>score</td>
+                    <td>decision</td>
+                </tr>
+            </thead>
+            <tbody id="plole_tbody">
+            </tbody>
+        </table>
+    </div>
+    <script src="details.js"></script>
+</body>
+
+</html>
