@@ -1,8 +1,11 @@
 import json
 import logging
 import numpy as np
+import os
 import pandas as pd
 import time
+
+from process_one import *
 
 
 # load config file
@@ -64,13 +67,28 @@ for code in regions.index:
     if region['ignore']:
         logger.info(f'ignoring region {region['name']} ({code})')
         continue
-    logger.info(f'processing region {region['name']} ({code})')
-    regions.loc[code, 'timestamp'] = int(time.time())
-    # TODO: process region
+    logger.info(f'processing region {region['name']} ({code})...')
+    config['region'] = region['name']
+    config['meters_crs'] = region['meters_crs']
+    config['region_code'] = code
+    config['admin_level'] = region['admin_level']
+    if process(config):
+        regions.loc[code, 'timestamp'] = int(time.time())
+        logger.info('...done')
+    else:
+        logger.error('...failed')
     
     # disable logging to region's log file
     region_logger.removeHandler(file_handler)
     del file_handler
+
+# join tiles from all regions
+logger.info('joining tiles...')
+os.system(f'rm -r {config['tiles_path']}')
+os.system(f'mkdir {config['tiles_path']}')
+cmd = f'tile-join --output-to-directory={config['tiles_path']} --no-tile-compression {config['export_path']}*.mbtiles'
+os.system(cmd)
+logger.info('...done')
 
 # update regions data
 regions.to_csv(config['regions_path'])
