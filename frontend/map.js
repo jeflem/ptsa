@@ -32,11 +32,11 @@ const ptsaTilesUrl = "http://localhost/tiles/{z}/{x}/{y}.pbf";
 //----------------------------------------------------------------------------
 
 var map = L.map('map', {
-    center: [50.8391871, 12.9242809], //[50.868378, 12.864990],
+    center: [50.7162946, 12.4952878],
     minZoom: 0,
     maxZoom: 19,
     zoomControl: false,
-    zoom: 16,
+    zoom: 4,
 });
 
 var osmBaseLayer = L.tileLayer(
@@ -63,7 +63,7 @@ var ptsaLayer = new L.VectorGrid.Protobuf(
     {
         rendererFactory: L.canvas.tile,
         interactive: true,
-        attribution: '',
+        attribution: '<a href="https://whz.de/~jef19jdw">Jens Flemming</a>',
         maxNativeZoom: 19,
         minZoom: 0,
         pane: map.getPane('overlayPane'),
