@@ -36,7 +36,7 @@ regions = pd.read_csv(
     header=0,
     dtype={
         'code': str,
-        'admin_level': np.uint8,
+        'filter': str,
         'name': str,
         'meters_crs': str,
         'ignore': bool,
@@ -71,7 +71,7 @@ for code in regions.index:
     config['region'] = region['name']
     config['meters_crs'] = region['meters_crs']
     config['region_code'] = code
-    config['admin_level'] = region['admin_level']
+    config['filter'] = region['filter']
     if process(config):
         regions.loc[code, 'timestamp'] = int(time.time())
         logger.info('...done')

@@ -18,7 +18,7 @@ def process(config):
     
     logger.info('sending query to overpass')
     query = '''
-    area["name:en"="{region}"]["admin_level"="{admin_level}"]->.roi;
+    area["name:en"="{region}"][{filter_}]->.roi;
 
     (
         nwr["highway"~"^((bus_stop|platform);?)*$"](area.roi);
@@ -38,7 +38,7 @@ def process(config):
 
     >;
     out skel;
-    '''.format(region=config['region'], admin_level=config['admin_level'])
+    '''.format(region=config['region'], filter_=config['filter'])
 
     nodes, ways, rels = overpass(query, config)
     del query

@@ -1,5 +1,6 @@
-code,admin_level,name,meters_crs,ignore,timestamp
-be,2,Belgium,EPSG:31300,True,1716696921
-de,2,Germany,EPSG:5243,True,0
-li,2,Liechtenstein,EPSG:21781,False,1717137948
-lu,2,Luxembourg,EPSG:2169,False,1717137990
+code,filter,name,meters_crs,ignore,timestamp
+be,admin_level=2,Belgium,EPSG:31300,True,1717152844
+de,admin_level,Germany,EPSG:5243,True,0
+li,admin_level,Liechtenstein,EPSG:21781,True,1717152850
+lu,admin_level,Luxembourg,EPSG:2169,False,1717215749
+nl,boundary=legal,European Netherlands,EPSG:28992,False,1717216163

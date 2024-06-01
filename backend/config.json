@@ -11,7 +11,7 @@
     "half_plafo_width": 1,
     "pole_stopo_dist": 30,
     "plafo_stopo_dist": 20,
-    "plafo_pole_dist": 0.1,
+    "plafo_pole_dist": 1,
     "station_radius": 50,
     "stop_buffer_size": 2
 }
