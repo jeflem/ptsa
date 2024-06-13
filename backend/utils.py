@@ -160,7 +160,11 @@ def overpass(query, config, ids_only=False, verbose=1):
     preamble = '[output: json][timeout: {timeout}];\n'.format(
         timeout=str(config['overpass_timeout']),
     )
-    r = requests.post(config['overpass_url'], data={'data': preamble + query})
+    r = requests.post(
+        config['overpass_url'],
+        data={'data': preamble + query},
+        headers={'X-API-Key': config['overpass_key']}
+    )
 
     if r.status_code != 200:
         logger.error(f'ERROR: overpass server returned {r.status_code}.')
