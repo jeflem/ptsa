@@ -172,6 +172,18 @@ def process(config):
     logger.info(f'platforms: {len(plafos)}')
 
 
+
+    # -------------------------------------------------------------------------
+    # check for empty geometries
+    
+    to_drop = []
+    for plafo_id in plafos.index:
+        if plafos.loc[plafo_id, 'geo'].is_empty:
+            to_drop.append(plafo_id)
+    if len(to_drop) > 0:
+        logger.warning(f'Dropping plafos with empty geometry: {str(to_drop)}')
+        plafos = plafos.drop(index=to_drop)
+
     # -------------------------------------------------------------------------
     # make data frame for stations
 
