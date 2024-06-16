@@ -66,13 +66,18 @@ for code in regions.index:
     region = regions.loc[code, :]
     if region['ignore']:
         logger.info(f'ignoring region {region['name']} ({code})')
+        region_logger.removeHandler(file_handler)
         continue
     logger.info(f'processing region {region['name']} ({code})...')
     config['region'] = region['name']
     config['meters_crs'] = region['meters_crs']
     config['region_code'] = code
     config['filter'] = region['filter']
-    if process(config):
+    try:
+        success = process(config)
+    except:
+        success = False
+    if success:
         regions.loc[code, 'timestamp'] = int(time.time())
         logger.info('...done')
     else:

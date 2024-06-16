@@ -944,6 +944,8 @@ def process(config):
     dubobs['lon_lat'] = dubobs['geo'].centroid.to_crs(config['lon_lat_crs']).apply(lambda p: (p.x, p.y))
 
     for df in [stopos, poles, plafos, stops, dubobs]:
+        if len(df) == 0:
+            df['lon_lat'] = df['lon_lat'].astype('object') # else it's a further geometry column, causing troubles when writing to geojson
         df['lon'] = df['lon_lat'].apply(lambda x: x[0])
         df['lat'] = df['lon_lat'].apply(lambda x: x[1])
     
