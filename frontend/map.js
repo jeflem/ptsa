@@ -436,7 +436,7 @@ function ptsaLayerClickHandler(e) {
         if (props.plafo_id > 0) {
             plafo = 'way ' + osm_link('way', props.plafo_id);
         } else if (props.plafo_id < 0) {
-            plafo = 'relation ' + osm_link('relation', props.plafo_id);
+            plafo = 'relation ' + osm_link('relation', -props.plafo_id);
         } else {
             plafo = 'none';
         }
@@ -452,7 +452,7 @@ function ptsaLayerClickHandler(e) {
             html += '<p>Some stop components have warnings.</p>';
         }
         if (props.plole_id > -1) {
-            html += '<p><a href="details.html?region=' + props.region + '&plole=' + props.plole_id + '" target="_blank">Details</a></p>';
+            html += '<p><a href="details.html?region=' + props.region + '&plole=' + props.plole_id + '" target="_blank">Plole details</a></p>';
         }
     } else if (props.type == 'dubob') {
         html += '<h1>Dubious object</h1>'

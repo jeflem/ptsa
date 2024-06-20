@@ -278,6 +278,18 @@ def process(config):
         for w, w_mods in zip(ways, ways_mods):
             for n_id in df.index.intersection(w.node_ids):
                 df.loc[n_id, 'track_mods'].update(w_mods)
+                if w.tags.get('layer'):
+                    if 'layer' not in df.loc[n_id, 'obj'].tags:
+                        df.loc[n_id, 'obj'].tags['layer'] = w.tags.get('layer')
+                    else: # belongs to multiple layers
+                        df.loc[n_id, 'obj'].multiple_values = True
+                        df.loc[n_id, 'obj'].tags['layer'] += ';' + w.tags.get('layer')
+                if w.tags.get('level'):
+                    if 'level' not in df.loc[n_id, 'obj'].tags:
+                        df.loc[n_id, 'obj'].tags['level'] = w.tags.get('level')
+                    else: # belongs to multiple levels
+                        df.loc[n_id, 'obj'].multiple_values = True
+                        df.loc[n_id, 'obj'].tags['level'] += ';' + w.tags.get('level')
 
     del ways, ways_mods
 
@@ -450,6 +462,25 @@ def process(config):
                 matches.append(-1)
         else:
             matches.append(0)
+        layers = set(stopo.tags.get('layer', '0').split(';')) & set(plole.tags.get('layer', '0').split(';'))
+        if 'layer' in keys:
+            if layers == set():
+                matches.append(0) # both have layer tag (then != 0), but layers differ
+            else:
+                matches.append(1) # both have layer tag (then != 0), common layer
+        else:
+            if layers == set():
+                matches.append(-1) # only one has layer tag
+            else:
+                matches.append(0) # both without layer tag (only 0 in intersection)
+        levels = set(stopo.tags.get('level', '0').split(';')) & set(plole.tags.get('level', '0').split(';'))
+        if levels != set():
+            if '0' in levels:
+                matches.append(0)
+            else:
+                matches.append(1)
+        else:
+            matches.append(-1)
         return matches
 
     get_nearby_nodes(stopos, poles, 'stopo', config['pole_stopo_dist'],
@@ -513,6 +544,25 @@ def process(config):
                 matches.append(-1)
         else:
             matches.append(0)
+        layers = set(plafo.tags.get('layer', '0').split(';')) & set(pole.tags.get('layer', '0').split(';'))
+        if 'layer' in keys:
+            if layers == set():
+                matches.append(0) # both have layer tag (then != 0), but layers differ
+            else:
+                matches.append(1) # both have layer tag (then != 0), common layer
+        else:
+            if layers == set():
+                matches.append(-1) # only one has layer tag
+            else:
+                matches.append(0) # both without layer tag (only 0 in intersection)
+        levels = set(plafo.tags.get('level', '0').split(';')) & set(pole.tags.get('level', '0').split(';'))
+        if levels != set():
+            if '0' in levels:
+                matches.append(0)
+            else:
+                matches.append(1)
+        else:
+            matches.append(-1)
         return matches
 
     get_nearby_nodes(poles, plafos, 'pole', config['plafo_pole_dist'],
@@ -741,7 +791,7 @@ def process(config):
         mods = stops.loc[i, 'mods']
         maybe_mods = stops.loc[i, 'maybe_mods']
         
-        if plole_id == 0:
+        if plole_id == -1:
             mods.update(stopo_mods)
         elif stopo_id == 0:
             if plole_mods != set():
@@ -980,12 +1030,12 @@ def process(config):
         # plafo and pole tags
         if plafo is not None:
             data['plafo_tags'] = {}
-            for key in ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name']:
+            for key in ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name', 'layer', 'level']:
                 value = plafo['obj'].tags.get(key)
                 data['plafo_tags'][key] = value if value else ''
         if pole is not None:
             data['pole_tags'] = {}
-            for key in ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name']:
+            for key in ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name', 'layer', 'level']:
                 value = pole['obj'].tags.get(key)
                 data['pole_tags'][key] = value if value else ''
 
@@ -993,7 +1043,7 @@ def process(config):
         if plafo is not None:
             data['plafo_stopos'] = {int(k): v for k, v in plafo['stopo_infos'].items()}
             for stopo_id, stopo_info in data['plafo_stopos'].items():
-                for key in ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name']:
+                for key in ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name', 'layer', 'level']:
                     value = stopos.loc[stopo_id, 'obj'].tags.get(key)
                     stopo_info[key] = value if value else ''
                 stopo_info['mods'] = list(stopos.loc[stopo_id, 'mods'])
@@ -1003,7 +1053,7 @@ def process(config):
         if pole is not None:
             data['pole_stopos'] = {int(k): v for k, v in pole['stopo_infos'].items()}
             for stopo_id, stopo_info in data['pole_stopos'].items():
-                for key in ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name']:
+                for key in ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name', 'layer', 'level']:
                     value = stopos.loc[stopo_id, 'obj'].tags.get(key)
                     stopo_info[key] = value if value else ''
                 stopo_info['mods'] = list(stopos.loc[stopo_id, 'mods'])

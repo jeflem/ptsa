@@ -587,13 +587,15 @@ def get_nearby_nodes(nodes, objects, col_prefix, radius, mods_func, score_func):
             node_info = objects.loc[obj_id, infos_col][node_id]
             node_info['ref:IFOPT_match'], node_info['ref_match'], \
             node_info['local_ref_match'], node_info['ref_name_match'], \
-            node_info['name_match'] \
+            node_info['name_match'], node_info['layer_match'], node_info['level_match'] \
                 = score_func(osm_obj, nodes.loc[node_id, 'obj'])
             node_info['score'] = 10 * node_info['ref:IFOPT_match'] \
                                  + 2 * node_info['ref_match'] \
                                  + 2 * node_info['local_ref_match'] \
                                  + 1 * node_info['ref_name_match'] \
-                                 + 1 * node_info['name_match']
+                                 + 1 * node_info['name_match'] \
+                                 + 1 * node_info['layer_match'] \
+                                 + 2 * node_info['level_match']
 
         # adjust scores by distance (add 0...1/2 for distance max...0)
         # note: this adjustment by distance only influences the ordering of

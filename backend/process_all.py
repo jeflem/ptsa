@@ -75,7 +75,8 @@ for code in regions.index:
     config['filter'] = region['filter']
     try:
         success = process(config)
-    except:
+    except Exception as e:
+        logger.exception(e)
         success = False
     if success:
         regions.loc[code, 'timestamp'] = int(time.time())

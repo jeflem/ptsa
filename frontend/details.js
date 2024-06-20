@@ -128,7 +128,7 @@ function makeTagsRow(title, mods_match, tags, score) {
         text = 'no';
     }
     html += '<td class="' + c + '">' + text + '</td>';
-    for (const key of ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name']) {
+    for (const key of ['ref:IFOPT', 'ref', 'local_ref', 'ref_name', 'name', 'layer', 'level']) {
         if (typeof score !== 'number') {
             c = '';
         } else {
