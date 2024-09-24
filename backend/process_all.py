@@ -58,17 +58,17 @@ del handler
 for code in regions.index:
 
     # enable logging to region's log file
-    file_handler = logging.FileHandler(f'{config['logs_path']}{code}.log', mode='w')
+    file_handler = logging.FileHandler(f'{config["logs_path"]}{code}.log', mode='w')
     file_handler.setFormatter(formatter)
     region_logger.addHandler(file_handler)
 
     # process region
     region = regions.loc[code, :]
     if region['ignore']:
-        logger.info(f'ignoring region {region['name']} ({code})')
+        logger.info(f'ignoring region {region["name"]} ({code})')
         region_logger.removeHandler(file_handler)
         continue
-    logger.info(f'processing region {region['name']} ({code})...')
+    logger.info(f'processing region {region["name"]} ({code})...')
     config['region'] = region['name']
     config['meters_crs'] = region['meters_crs']
     config['region_code'] = code
@@ -90,9 +90,9 @@ for code in regions.index:
 
 # join tiles from all regions
 logger.info('joining tiles...')
-os.system(f'rm -r {config['tiles_path']}')
-os.system(f'mkdir {config['tiles_path']}')
-cmd = f'tile-join --output-to-directory={config['tiles_path']} --no-tile-compression {config['export_path']}*.mbtiles'
+os.system(f'rm -r {config["tiles_path"]}')
+os.system(f'mkdir {config["tiles_path"]}')
+cmd = f'tile-join --output-to-directory={config["tiles_path"]} --no-tile-compression {config["export_path"]}*.mbtiles'
 os.system(cmd)
 logger.info('...done')
 
