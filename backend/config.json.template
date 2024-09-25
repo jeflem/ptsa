@@ -14,5 +14,7 @@
     "plafo_stopo_dist": 20,
     "plafo_pole_dist": 1,
     "station_radius": 50,
-    "stop_buffer_size": 2
+    "stop_buffer_size": 2,
+    "regions_mode": "exclude",
+    "regions_codes": []
 }

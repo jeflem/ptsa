@@ -35,12 +35,14 @@ regions = pd.read_csv(
     index_col=0,
     header=0,
     dtype={
-        'code': str,
-        'filter': str,
+        'osm_id': np.int64,
         'name': str,
-        'meters_crs': str,
-        'ignore': bool,
-        'timestamp': np.uint64
+        'code': str,
+        'admin_level': np.uint8,
+        'parent_osm_id': np.int64,
+        'lon': np.float32,
+        'lat': np.float32,
+        'radius': np.float32
     }
 )
 logger.info(f'found {len(regions)} regions')
@@ -54,8 +56,25 @@ handler.setFormatter(formatter)
 region_logger.addHandler(handler)
 del handler
 
+# mark parents/leaves
+regions['is_parent'] = False
+for i in regions.index:
+    parent_id = regions.loc[i, 'parent_osm_id']
+    if parent_id != 0:
+        regions.loc[parent_id, 'is_parent'] = True
+
+# get regions to process
+if config['regions_mode'] == 'include':
+    include_mask = regions['code'].isin(config['regions_codes'])
+else:  # exclude
+    include_mask = ~regions['code'].isin(config['regions_codes'])
+parent_mask = regions['is_parent']
+to_process = regions.loc[include_mask & ~parent_mask, :].index
+logger.info(f'regions to process: {len(to_process)}')
+
 # process regions
-for code in regions.index:
+for osm_id in to_process:
+    code = regions.loc[osm_id, 'code'].lower()
 
     # enable logging to region's log file
     file_handler = logging.FileHandler(f'{config["logs_path"]}{code}.log', mode='w')
@@ -63,23 +82,18 @@ for code in regions.index:
     region_logger.addHandler(file_handler)
 
     # process region
-    region = regions.loc[code, :]
-    if region['ignore']:
-        logger.info(f'ignoring region {region["name"]} ({code})')
-        region_logger.removeHandler(file_handler)
-        continue
+    region = regions.loc[osm_id, :]
     logger.info(f'processing region {region["name"]} ({code})...')
     config['region'] = region['name']
-    config['meters_crs'] = region['meters_crs']
+    config['meters_crs'] = f'+proj=aeqd +lat_0={region["lat"]} +lon_0={region["lon"]}'
     config['region_code'] = code
-    config['filter'] = region['filter']
+    config['osm_id'] = osm_id
     try:
         success = process(config)
     except Exception as e:
         logger.exception(e)
         success = False
     if success:
-        regions.loc[code, 'timestamp'] = int(time.time())
         logger.info('...done')
     else:
         logger.error('...failed')
