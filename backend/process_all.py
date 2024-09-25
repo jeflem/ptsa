@@ -104,10 +104,13 @@ for osm_id in to_process:
 
 # join tiles from all regions
 logger.info('joining tiles...')
-os.system(f'rm -r {config["tiles_path"]}')
-os.system(f'mkdir {config["tiles_path"]}')
-cmd = f'tile-join --output-to-directory={config["tiles_path"]} --no-tile-compression {config["export_path"]}*.mbtiles'
+os.system(f'mkdir {config["tiles_tmp_path"]}')
+cmd = f'tile-join --output-to-directory={config["tiles_tmp_path"]} --no-tile-compression {config["export_path"]}*.mbtiles'
 os.system(cmd)
+logger.info('removing old tiles...')
+os.system(f'rm -r {config["tiles_path"]}')
+logger.info('moving new tiles to destination path...')
+os.system(f'mv {config["tiles_tmp_path"]} {config["tiles_path"]}')
 logger.info('...done')
 
 # update regions data

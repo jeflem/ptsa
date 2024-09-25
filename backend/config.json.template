@@ -5,6 +5,7 @@
     "regions_path": "regions.csv",
     "ploles_path": "/var/www/html/ploles/",
     "tiles_path": "/var/www/html/tiles/",
+    "tiles_tmp_path": "/var/www/html/tiles_tmp/",
     "logs_path": "logs/",
     "export_path": "export/",
     "debug": true,
