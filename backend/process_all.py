@@ -34,6 +34,7 @@ regions = pd.read_csv(
     sep=',',
     index_col=0,
     header=0,
+    keep_default_na=False,
     dtype={
         'osm_id': np.int64,
         'name': str,
