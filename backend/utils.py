@@ -133,8 +133,8 @@ class Area(OSMObject):
             self.from_line = False
             ways = [ways_dict[m.id] for m in base_obj.members 
                                     if m.type == 'way' and m.role == 'outer']
-            if ways == []:
-                ways = [ways_dict[base_obj.members[0].id]]
+            if ways == []:  # no outer rings, use all ways
+                ways = [ways_dict[m.id] for m in base_obj.members if m.type == 'way']
                 self.warning('invalid area')
             self.geometry = [
                 LineString([(nodes_dict[n_id].lon, nodes_dict[n_id].lat)

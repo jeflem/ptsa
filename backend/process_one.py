@@ -852,15 +852,17 @@ def process(config):
         plafo_id = stops.loc[stop_id, 'plafo_id']
         pole_id = stops.loc[stop_id, 'pole_id']
         stopo_id = stops.loc[stop_id, 'stopo_id']
+        stops.loc[stop_id, 'member_comments'] = False
+        stops.loc[stop_id, 'member_warnings'] = False
         if plafo_id != 0:
-            stops.loc[stop_id, 'member_comments'] = plafos.loc[plafo_id, 'obj'].comments != []
-            stops.loc[stop_id, 'member_warnings'] = plafos.loc[plafo_id, 'obj'].warnings != []
+            stops.loc[stop_id, 'member_comments'] = stops.loc[stop_id, 'member_comments'] or plafos.loc[plafo_id, 'obj'].comments != []
+            stops.loc[stop_id, 'member_warnings'] = stops.loc[stop_id, 'member_warnings'] or plafos.loc[plafo_id, 'obj'].warnings != []
         if pole_id > 0:
-            stops.loc[stop_id, 'member_comments'] = poles.loc[pole_id, 'obj'].comments != []
-            stops.loc[stop_id, 'member_warnings'] = poles.loc[pole_id, 'obj'].warnings != []
+            stops.loc[stop_id, 'member_comments'] = stops.loc[stop_id, 'member_comments'] or poles.loc[pole_id, 'obj'].comments != []
+            stops.loc[stop_id, 'member_warnings'] = stops.loc[stop_id, 'member_warnings'] or poles.loc[pole_id, 'obj'].warnings != []
         if stopo_id > 0:
-            stops.loc[stop_id, 'member_comments'] = stopos.loc[stopo_id, 'obj'].comments != []
-            stops.loc[stop_id, 'member_warnings'] = stopos.loc[stopo_id, 'obj'].warnings != []
+            stops.loc[stop_id, 'member_comments'] = stops.loc[stop_id, 'member_comments'] or stopos.loc[stopo_id, 'obj'].comments != []
+            stops.loc[stop_id, 'member_warnings'] = stops.loc[stop_id, 'member_warnings'] or stopos.loc[stopo_id, 'obj'].warnings != []
             
     # -------------------------------------------------------------------------
     # bus stop rendering quality
