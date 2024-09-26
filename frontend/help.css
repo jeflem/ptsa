@@ -3,3 +3,7 @@ body {
     padding: 10px;
     font-family: sans;
 }
+
+h1 {
+    margin-top: 0;
+}

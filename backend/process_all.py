@@ -112,6 +112,3 @@ os.system(f'rm -r {config["tiles_path"]}')
 logger.info('moving new tiles to destination path...')
 os.system(f'mv {config["tiles_tmp_path"]} {config["tiles_path"]}')
 logger.info('...done')
-
-# update regions data
-regions.to_csv(config['regions_path'])
