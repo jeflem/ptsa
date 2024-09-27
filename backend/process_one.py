@@ -1131,6 +1131,8 @@ def process(config):
     # -------------------------------------------------------------------------
     # export
     
+    logger.info(f'exporting {len(stops)} stops with {len(plafos)} platforms, {len(poles)} poles, {len(stopos)} stop positions')
+    
     prefix = config['export_path'] + config['region_code'] + '_'
     
     stopos[['geo', 'lon', 'lat', 'comments', 'warnings', 'mods', 'type']] \
