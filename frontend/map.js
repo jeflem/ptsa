@@ -32,11 +32,11 @@ const ptsaTilesUrl = "http://localhost/tiles/{z}/{x}/{y}.pbf";
 //----------------------------------------------------------------------------
 
 var map = L.map('map', {
-    center: [50.7162946, 12.4952878],
+    center: [50.716501, 12.495330],
     minZoom: 0,
     maxZoom: 19,
     zoomControl: false,
-    zoom: 4,
+    zoom: 3,
 });
 
 var osmBaseLayer = L.tileLayer(
@@ -77,6 +77,8 @@ var ptsaLayer = new L.VectorGrid.Protobuf(
         }
     }
 ).addTo(map);
+
+var hash = new L.Hash(map);
 
 //----------------------------------------------------------------------------
 
