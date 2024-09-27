@@ -859,12 +859,12 @@ def process(config):
         else:
             return False
 
+    stops['member_comments'] = False
+    stops['member_warnings'] = False
     for stop_id in stops.index:
         plafo_id = stops.loc[stop_id, 'plafo_id']
         pole_id = stops.loc[stop_id, 'pole_id']
         stopo_id = stops.loc[stop_id, 'stopo_id']
-        stops.loc[stop_id, 'member_comments'] = False
-        stops.loc[stop_id, 'member_warnings'] = False
         if plafo_id != 0:
             stops.loc[stop_id, 'member_comments'] = stops.loc[stop_id, 'member_comments'] or plafos.loc[plafo_id, 'obj'].comments != []
             stops.loc[stop_id, 'member_warnings'] = stops.loc[stop_id, 'member_warnings'] or plafos.loc[plafo_id, 'obj'].warnings != []
