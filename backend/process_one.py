@@ -755,25 +755,36 @@ def process(config):
     # -------------------------------------------------------------------------
     # make stop geometries (outline)
 
+    plafo_geos_web = plafos['geo'].to_crs(config['web_crs'])
+    pole_geos_web = poles['geo'].to_crs(config['web_crs'])
+    stopo_geos_web = stopos['geo'].to_crs(config['web_crs'])
+    stop_geos_web = gpd.GeoSeries(
+        index = stops.index,
+        data = len(stops) * [Point()],
+        crs = config['web_crs']
+    )
+        
     for stop_id in stops.index:
         plafo_id = stops.loc[stop_id, 'plafo_id']
         pole_id = stops.loc[stop_id, 'pole_id']
         stopo_id = stops.loc[stop_id, 'stopo_id']
         if plafo_id != 0:
-            plafo_geo = plafos.loc[plafo_id, 'geo']
+            plafo_geo = plafo_geos_web.loc[plafo_id]
         else:
             plafo_geo = Point()
         if pole_id != 0:
-            pole_geo = poles.loc[pole_id, 'geo']
+            pole_geo = pole_geos_web.loc[pole_id]
         else:
             pole_geo = Point()
         if stopo_id != 0:
-            stopo_geo = stopos.loc[stopo_id, 'geo']
+            stopo_geo = stopo_geos_web.loc[stopo_id]
         else:
             stopo_geo = Point()
         plafo_buffer = plafo_geo.buffer(config['stop_buffer_size'], cap_style=1, resolution=4)
         nodes_buffer = shapely.unary_union([pole_geo, stopo_geo]).convex_hull.buffer(config['stop_buffer_size'], cap_style=1, resolution=4)
-        stops.loc[stop_id, 'geo'] = shapely.unary_union([plafo_buffer, nodes_buffer])
+        stop_geos_web.loc[stop_id] = shapely.unary_union([plafo_buffer, nodes_buffer])
+        
+    stops['geo'] = stop_geos_web.to_crs(config['meters_crs'])
 
     # -------------------------------------------------------------------------
     # get stop mods
