@@ -12,25 +12,88 @@
     <h1>PTSA Help</h1>
     
     <h2>What is PTSA?</h2>
+    <p><img src="help/ptsa.png" alt="differen zoom levels of the PTSA map" /></p>
     <p>PTSA is an interactive map showing structure and properties of public transport stops in the <a href="https://osm.org">OpenStreetMap data base</a> (OSM). It's main pupose is to find tagging mistakes and inconsitencies in OSM.</p>
     
     <h2>When/Why do I need PTSA?</h2>
-    <ul>
-        <li>OSM's standard map (here referred to as 'Carto rendering') does not support <a href="https://wiki.openstreetmap.org/wiki/Proposal:Public_Transport">PTv2</a> tagging. Consequently, some public transport stops do not appear on the map. PTSA shows all stops. PTSA visualizes which stops use old tagging ('PTv1'), which stops use PTv2 only, and which stops use mixed tagging.</li>
-        <li>Public transport stops in OSM may consist of several objects only loosely related by identical name tags or alike. PTSA tries to find all objects related to a stop and shows them as one object group on the map.</li>
-        <li>PTSA may be used as kind of validator. It adds comments and warnings to shown OSM objects and also identifies objects that look somehow related to public transport but cannot be categorized further ('dubious objects').</li>
-        <li>For stops consisting of more than one object, there's no straight-forward way to determine a precise location (a point on the map). PTSA computes virtual poles (if there is no pole object) located on the platform close to the stop position.</li>
-    </ul>
+    <p><img src="help/carto_ptsa.png" alt="Carto map vs. PTSA map" /></p>
+    <p>OSM's standard map (here referred to as 'Carto rendering') does not fully support the <a href="https://wiki.openstreetmap.org/wiki/Proposal:Public_Transport">PTv2</a> tagging scheme. Consequently, some public transport stops do not appear on the map. PTSA shows all stops. In addition, PTSA color-codes which stops use old tagging ('PTv1'), which stops use PTv2 only, and which stops use mixed tagging.</p>
+    <p><img src="help/stops.png" alt="groups of stop objects" /></p>
+    <p>Public transport stops in OSM may consist of several objects only loosely related by identical name tags or alike. PTSA tries to find all objects belonging to a stop and shows them as one object group on the map.</p>
+    <p><img src="help/validate.png" alt="obvious tagging error visible in the map" /></p>
+    <p>PTSA may be used as kind of validator. It adds comments and warnings to shown OSM objects and also identifies objects that look somehow related to public transport but cannot be categorized further ('dubious objects').</p>
+    <p><img src="help/vpoles.png" alt="virtual poles" /></p>
+    <p>For stops consisting of more than one object, there's no straight-forward way to determine a precise location (a point on the map). PTSA computes virtual poles (if there is no pole object) located on the platform close to the stop position.</p>
     
     <h2>What do I see on the map?</h2>
-    <p>Zooming in single points (each representing an abstract stop object) disperse into several OSM objects making up the stops. All objects belonging to one stop are surrounded by a line marking an abstract stop area (not to confuse with PTv2's stop areas). You can click each object and the surrounding stop area to get additional information.</p>
-    <p>If you click a stop area (not an object inside this area) you see a link 'Plole details'. In PTSA a <em>plole</em> is the waiting area for passengers. This may be a pole node or a plattform way/area or both together, depending on the stop's data in OSM.</p>
-    
-    <h2>What do I see on the plole details page?</h2>
-    <p>The plole details page shows (almost) all information PTSA uses to determine which OSM objects belong to one and the same stop. This includes modalities supported by the objects, relevant tags, and scores computed by PTSA based on tags and distances.</p>
+    <p>Zooming in, single points (each representing an abstract stop object) disperse into several OSM objects making up the stops. All objects belonging to one stop are surrounded by a line marking an abstract stop area (not to confuse with PTv2's stop areas). You can click each object and the surrounding stop area to get additional information.</p>
+    <p><img src="help/click.png" alt="popups with additional information" /></p>
+    <p>If you click a stop area (not an object inside this area) you see a link 'Plole details'. In PTSA a <em>plole</em> is the waiting area for passengers. This may be a pole node or a platform way/area or both together, depending on the stop's data in OSM.</p>
+
     <h2>PTSA's stop model</h2>
     <p>In PTSA a stop has at most three objects: a stop position (where the vehicle stops), a pole (node where passengers should wait), a platform (way/area where passengers should wait). At least one of these objects has to exist. This is very similar to the stop areas in the <a href="https://wiki.openstreetmap.org/wiki/Proposal:Refined_Public_Transport">Refined Public Transport Proposal</a>.</p>
-    <p>Stops mapped with only one platform for several stop positions appear in PTSA as multiple stops (one stop per stop position). If there are several poles/platforms using a commen stop position, then PTSA generates as many stops as there are poles/platforms.</p>
+    <p><img src="help/shared.png" alt="two platforms sharing one stop position" /></p>
+    <p>Stops mapped with only one platform for several stop positions appear in PTSA as multiple stops (one stop per stop position). If there are several poles/platforms using a shared stop position, then PTSA generates as many stops as there are poles/platforms. See below for details on the matching process.</p>
+        
+    <h2>Coloring modes</h2>
+    <p>There are four coloring modes:</p>
+    <ul>
+        <li><em>Warnings/comments</em> shows whether PTSA generated comments or warnings while processing a stop or one of its objects. Click a stop or an object to see comments and warnings in the info popup.</li>
+        <li><em>Carto rendering (bus only)</em> shows bus stops only. Colors/categories are as follows:
+            <ul>
+                <li><em>no bus symbol:</em> Carto does not show a blue bus symbol on the map (but platforms might be visible).</li>
+                <li><em>missplaced bus symbol:</em> There is at least one bus symbol, but at the wrong position. A typical situation is that the symbol appears at the stop position although there's a pole, too. Stops with two bus symbols also are in this category.</li>
+                <li><em>acceptable:</em> No bus symbol, but the stop belongs to a bus station and, thus, can be recognized as bus stop in Carto.</li>
+                <li><em>good:</em> Exactly one bus symbol at the correct position.</li>
+            </ul>
+        </li>
+        <li><em>New PTv2 tags</em> shows whether a stop or an object uses the original public transport scheme or PTv2 or a mix of tags from both schemes.</li>
+        <li><em>Stop structure</em> shows number and kind of objects a stop consists of.</li>
+    </ul>
+    
+    <h2>What do I see on the plole (= platform/pole/both) details page?</h2>
+    <p>The plole details page shows (almost) all information PTSA uses to determine which OSM objects belong to one and the same stop. This includes modalities supported by the objects, relevant tags, and scores computed by PTSA based on tags and distances.</p>
+    <p><img src="help/details.png" alt="screenshot of details page" /></p>
+    <p>The information show may be used to understand why PTSA wasn't able to match objects which belong to one stop and to get an idea how to edit OSM data to get correct matches. Details on the scoring scheme are provided below.</p>
+
+    <h2>Matching algorithm details</h2>
+    <p>PTSA follow a four-stop-procedure for combining OSM objects to stops:</p>
+    <ol>
+        <li>Score pairs of stop positions and poles/platforms.</li>
+        <li>Score pairs of poles and platforms.</li>
+        <li>Deduce score for pairs of stop positions and ploles</li>
+        <li>Assign stop positions to ploles.</li>
+    </ol>
+    
+    <h3>Scoring for matching stop positions and poles/platforms</h3>    
+    <p>For each pole/platform only nearby stop positions are considered (maximum distance is 30/20 meters for poles/platforms). Scoring has three components:</p>
+    <ul>
+        <li>distance based score d,</li>
+        <li>tag matching values t<sub>1</sub>,..., t<sub>7</sub> for a fixed set of 7 keys (-1, 0, 1 for not matching, not available/relevant, matching),</li>
+        <li>weight factors w<sub>1</sub>,..., w<sub>7</sub> for each key.</li>
+    </ul>
+    <p>The score is d plus the weighted sum of the tag matching values: score = d + w<sub>1</sub>t<sub>1</sub> + ... + w<sub>7</sub>t<sub>7</sub>.</p>
+    <p>The 7 keys considered and their scores are: <code>ref:IFOPT</code> (10), <code>ref</code> (2), <code>local_ref</code> (2), <code>ref_name</code> (1), <code>name</code> (1), <code>layer</code> (2), <code>level</code> (2).</p>
+    <p>Tag matching values are computes differently for each key. The principle approach is, that 0 refers to 'tag not available', 1 refers to 'equal values for both objects', -1 refers to 'different values'. String comparison does not require full equality. IFOPT comparision respects to structure of IFOPTs (from general to more specific). See PTSA's source code for details (<code>backend/process_one.py</code>, <code>score_stopos_to_ploles</code> function).</p>
+    <p>Distance values are transformed to the interval [0, 0.5] with 0 for large distances (above 30/20 meters for poles/platforms) and 0.5 for distance 0. Keeping the distance score component below 1 ensures that distance is only relevant for matching decisions if all tag values coincide.</p>
+
+    <h3>Scoring for matching poles and platforms</h3>
+    <p>It's almost the same as for stop positions vs. poles/platforms. The only differences are:</p>
+    <ul>
+        <li>Comparision of tag values is slightly different. See source code for details (<code>backend/process_one.py</code>, <code>score_poles_to_plafos</code> function).</li>
+        <li>The maximum allowed distance between poles and platforms is 1 meter. That is, the pole has to be mapped almost on the platform.</li>
+    </ul>
+    
+    <h3>Scoring for matching stop positions to ploles</h3>
+    <p>If a pole matches a platform, then for each nearby stop position there are two scores, one with respect to the pole and one with respect to the platform. The score for matching stop positions to ploles is the mean of both scores.</p>
+    
+    <h3>Deciding which stop position belongs to which plole</h3>
+    <p>The assignment process of stop positions to ploles is as follows:</p>
+    <ol>
+        <li>To each plole the stop position with best score is assigned.</li>
+        <li>To each plole assign nearby stop positions that aren't already assigned to a plole or that serve a modality not served by a stop position already assigned to the plole.</li>
+        <li>For each remaining stop position and each plole the stop position is nearby find the highest scoring pair of stop position and plole. Use this pair for the assignment.</li>
+    </ol>
     
     <h2>Examples</h2>
     To better understand how PTSA matches stop positions and poles/platforms (that is, ploles) here we provide several examples.
@@ -58,7 +121,7 @@
     <p><img alt="map screenshot" src="help/example4.png" /></p>
     <p><img alt="details page screenshot" src="help/example4details.png" /></p>
     <p>The platform obviously has a pole and a stop position, but PTSA does not combine them to a stop. The reason is that the platform has a different name tag and there are no other tags. This tagging mistake together with the fact that stop position 2 is relatively far away from poles and platform makes PTSA generate four stops instead of two. From PTSA's visualization we immediately see that something is wrong here. Investigating the details yields the underlying causes.</p>
-    
+
     <p><a href="https://www.fh-zwickau.de/service/impressum/">Imprint</a> | <a href="https://www.fh-zwickau.de/service/datenschutz/">Data Privacy</a> | <a href="https://www.fh-zwickau.de/service/barrierefreiheitserklaerung/">Accessibility</a></p>
 </body>
 
