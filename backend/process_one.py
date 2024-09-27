@@ -236,16 +236,19 @@ def process(config):
     for df in [stopos, poles]:
 
         # fetch all ways
-        query = '''
-        node(id: {node_ids});
-        way(bn)->.all;
-        ({way_filters});
-        out;
-        '''.format(
-            node_ids=','.join([str(id_) for id_ in df.index]),
-            way_filters='\n'.join([f'way.all[{key}];' for key in track_keys])
-        )
-        _, ways, _ = overpass(query, config)
+        if len(df) > 0:
+            query = '''
+            node(id: {node_ids});
+            way(bn)->.all;
+            ({way_filters});
+            out;
+            '''.format(
+                node_ids=','.join([str(id_) for id_ in df.index]),
+                way_filters='\n'.join([f'way.all[{key}];' for key in track_keys])
+            )
+            _, ways, _ = overpass(query, config)
+        else:
+            ways = []
 
         # assign modalities to ways
         ways_mods = [set() for _ in range(len(ways))]
