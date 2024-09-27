@@ -74,7 +74,7 @@ to_process = regions.loc[include_mask & ~parent_mask, :].index
 logger.info(f'regions to process: {len(to_process)}')
 
 # process regions
-for osm_id in to_process:
+for i, osm_id in enumerate(to_process):
     code = regions.loc[osm_id, 'code'].lower()
 
     # enable logging to region's log file
@@ -84,7 +84,7 @@ for osm_id in to_process:
 
     # process region
     region = regions.loc[osm_id, :]
-    logger.info(f'processing region {region["name"]} ({code})...')
+    logger.info(f'processing region {i + 1}/{len(to_process)} ({region["name"]}, {code})...')
     config['region'] = region['name']
     config['meters_crs'] = f'+proj=aeqd +lat_0={region["lat"]} +lon_0={region["lon"]}'
     config['region_code'] = code
