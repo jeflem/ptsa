@@ -167,7 +167,7 @@ def overpass(query, config, ids_only=False, verbose=1):
     )
 
     if r.status_code != 200:
-        logger.error(f'ERROR: overpass server returned {r.status_code}.')
+        logger.error(f'overpass server returned {r.status_code} for query\n{query}')
         return [], [], []
     
     j = r.json()
