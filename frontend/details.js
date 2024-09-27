@@ -26,7 +26,7 @@ L.Canvas.Tile.include({
 
 //----------------------------------------------------------------------------
 
-const ptsaTilesUrl = "http://localhost/tiles/{z}/{x}/{y}.pbf";
+const ptsaTilesUrl = "http://localhost/ptsa/tiles/{z}/{x}/{y}.pbf";
 
 //----------------------------------------------------------------------------
 
