@@ -11,11 +11,22 @@
 <body>
     <h1>PTSA Help</h1>
     
-    <h2>What is PTSA?</h2>
+    <ul>
+        <li><a href="#what">What is PTSA?</a></li>
+        <li><a href="#when">When/Why do I need PTSA?</a></li>
+        <li><a href="#see">What do I see on the map?</a></li>
+        <li><a href="#model">PTSA's stop model</a></li>
+        <li><a href="#color">Coloring modes</a></li>
+        <li><a href="#details">What do I see on the plole details page?</a></li>
+        <li><a href="#matching">Matching algorithm details</a></li>
+        <li><a href="#examples">Examples</a></li>
+    </ul>
+    
+    <h2 id="what">What is PTSA?</h2>
     <p><img src="help/ptsa.png" alt="differen zoom levels of the PTSA map" /></p>
     <p>PTSA is an interactive map showing structure and properties of public transport stops in the <a href="https://osm.org">OpenStreetMap data base</a> (OSM). It's main pupose is to find tagging mistakes and inconsitencies in OSM.</p>
     
-    <h2>When/Why do I need PTSA?</h2>
+    <h2 id="when">When/Why do I need PTSA?</h2>
     <p><img src="help/carto_ptsa.png" alt="Carto map vs. PTSA map" /></p>
     <p>OSM's standard map (here referred to as 'Carto rendering') does not fully support the <a href="https://wiki.openstreetmap.org/wiki/Proposal:Public_Transport">PTv2</a> tagging scheme. Consequently, some public transport stops do not appear on the map. PTSA shows all stops. In addition, PTSA color-codes which stops use old tagging ('PTv1'), which stops use PTv2 only, and which stops use mixed tagging.</p>
     <p><img src="help/stops.png" alt="groups of stop objects" /></p>
@@ -25,17 +36,17 @@
     <p><img src="help/vpoles.png" alt="virtual poles" /></p>
     <p>For stops consisting of more than one object, there's no straight-forward way to determine a precise location (a point on the map). PTSA computes virtual poles (if there is no pole object) located on the platform close to the stop position.</p>
     
-    <h2>What do I see on the map?</h2>
+    <h2 id="see">What do I see on the map?</h2>
     <p>Zooming in, single points (each representing an abstract stop object) disperse into several OSM objects making up the stops. All objects belonging to one stop are surrounded by a line marking an abstract stop area (not to confuse with PTv2's stop areas). You can click each object and the surrounding stop area to get additional information.</p>
     <p><img src="help/click.png" alt="popups with additional information" /></p>
     <p>If you click a stop area (not an object inside this area) you see a link 'Plole details'. In PTSA a <em>plole</em> is the waiting area for passengers. This may be a pole node or a platform way/area or both together, depending on the stop's data in OSM.</p>
 
-    <h2>PTSA's stop model</h2>
+    <h2 id="model">PTSA's stop model</h2>
     <p>In PTSA a stop has at most three objects: a stop position (where the vehicle stops), a pole (node where passengers should wait), a platform (way/area where passengers should wait). At least one of these objects has to exist. This is very similar to the stop areas in the <a href="https://wiki.openstreetmap.org/wiki/Proposal:Refined_Public_Transport">Refined Public Transport Proposal</a>.</p>
     <p><img src="help/shared.png" alt="two platforms sharing one stop position" /></p>
     <p>Stops mapped with only one platform for several stop positions appear in PTSA as multiple stops (one stop per stop position). If there are several poles/platforms using a shared stop position, then PTSA generates as many stops as there are poles/platforms. See below for details on the matching process.</p>
         
-    <h2>Coloring modes</h2>
+    <h2 id="color">Coloring modes</h2>
     <p>There are four coloring modes:</p>
     <ul>
         <li><em>Warnings/comments</em> shows whether PTSA generated comments or warnings while processing a stop or one of its objects. Click a stop or an object to see comments and warnings in the info popup.</li>
@@ -51,12 +62,12 @@
         <li><em>Stop structure</em> shows number and kind of objects a stop consists of.</li>
     </ul>
     
-    <h2>What do I see on the plole (= platform/pole/both) details page?</h2>
-    <p>The plole details page shows (almost) all information PTSA uses to determine which OSM objects belong to one and the same stop. This includes modalities supported by the objects, relevant tags, and scores computed by PTSA based on tags and distances.</p>
+    <h2 id="details">What do I see on the plole details page?</h2>
+    <p>The plole (= platform/pole/both) details page shows (almost) all information PTSA uses to determine which OSM objects belong to one and the same stop. This includes modalities supported by the objects, relevant tags, and scores computed by PTSA based on tags and distances.</p>
     <p><img src="help/details.png" alt="screenshot of details page" /></p>
     <p>The information show may be used to understand why PTSA wasn't able to match objects which belong to one stop and to get an idea how to edit OSM data to get correct matches. Details on the scoring scheme are provided below.</p>
 
-    <h2>Matching algorithm details</h2>
+    <h2 id="matching">Matching algorithm details</h2>
     <p>PTSA follow a four-stop-procedure for combining OSM objects to stops:</p>
     <ol>
         <li>Score pairs of stop positions and poles/platforms.</li>
@@ -95,32 +106,25 @@
         <li>For each remaining stop position and each plole the stop position is nearby find the highest scoring pair of stop position and plole. Use this pair for the assignment.</li>
     </ol>
     
-    <h2>Examples</h2>
+    <h2 id="examples">Examples</h2>
     To better understand how PTSA matches stop positions and poles/platforms (that is, ploles) here we provide several examples.
     
     <h3>Bus stops with poles and stop positions</h3>
-    <p><img alt="map screenshot" src="help/example1.png" /></p>
-    <p><img alt="details page screenshot" src="help/example1details.png" /></p>
-    <p><img alt="details page screenshot" src="help/example1details2.png" /></p>
+    <p><img alt="map and details pages screenshot" src="help/example1.png" /></p>
     <p>We see two stops, each consisting of a pole and a stop position. Both stop positions are sufficiently close to each pole to maybe belong to each pole. Both stop positions serve modalities compatible with both poles. Both poles and both stop positions have identical name tags. Other relevant tags are not available. Thus, the only criterion for score based matching is the distance of each stop position to each pole.</p>
     <p>Both stop positions have positive score for both poles. Thus, in principle both stop positions could be related to each of the two poles. PTSA here assumes, that one stop position per pole is the standard. More than one stop position per pole is only considered relevant if there's another stop position not matching any other pole.</p>
     
     <h3>Bus stop with platform and stop position</h3>
-    <p><img alt="map screenshot" src="help/example2.png" /></p>
-    <p><img alt="details page screenshot" src="help/example2details.png" /></p>
-    <p>We are interested in the long south eastern platform. The details page shows that there are six stop positions closeby. The platform has <code>public_transport=platform</code> making it suitable for almost all modalities, but there's no definitve information about modalities served (thus, yellow squares in the table). All stop position modalities match the platform's modalities ('mods' column is green).</p>
-    <p>The platform has no name tag. Thus, PTSA cannot make decisions by name, but only by distance and layer tag. Three stop positions match the platform and stop position 5 has highest score. Although stop positions 1 and 6 match, too, they are best matches for other poles/platforms and are not assigned to the platform under consideration.</p>
-    <p>Note that <code>layer=-1</code> does not lower (or increase) the score (yellow background), because layers in OSM are kind of rendering information and have only loose relation to reality (in contrast to level). For stop positions without any layer information score is decreased, because here there's some likelyhood that in reality the objects are on different levels.</p>
+    <p><img alt="map and details pages screenshot" src="help/example2.png" /></p>
+    <p>The platform of interest has many nearby stop positions. The closest one is stop position 4. But layer an level differ. The more distant stop position 3 has matching tags. Thus, PTSA chooses this one.</p>
     
-    <h3>Bus stop with platform, pole, stop position</h3>
-    <p><img alt="map screenshot" src="help/example3.png" /></p>
-    <p><img alt="details page screenshot" src="help/example3details.png" /></p>
-    <p>Next to platform and pole modalities the modality table shows plole modalities, which are the intersection of platform and pole modalities. The correct stop position is chosen by distamce (because all names are identical). The stop position with smaller score has highest score for another plole and, thus, is not considered an addtional stop position for the plole under consideration here.</p>
+    <h3>Bus stop with incorrect non-match of plole and stop position</h3>
+    <p><img alt="map and details pages screenshot" src="help/example3.png" /></p>
+    <p>Platform and pole are correctly matches. But the platform has no matching stop position due to slight differences in the name tags. The pole matches the wrong stop position due to incorrect name tags. Consequently, no stop position is assigned to the plole. PTSA creates two stops, one without plole and one without stop position. Here OSM data should be corrected.</p>
     
     <h3>No match due to wrong name tags</h3>
-    <p><img alt="map screenshot" src="help/example4.png" /></p>
-    <p><img alt="details page screenshot" src="help/example4details.png" /></p>
-    <p>The platform obviously has a pole and a stop position, but PTSA does not combine them to a stop. The reason is that the platform has a different name tag and there are no other tags. This tagging mistake together with the fact that stop position 2 is relatively far away from poles and platform makes PTSA generate four stops instead of two. From PTSA's visualization we immediately see that something is wrong here. Investigating the details yields the underlying causes.</p>
+    <p><img alt="map and details pages screenshot" src="help/example4.png" /></p>
+    <p>From object locations on the map we easily deduce that there is a bus pole, a tram platform, a bus stop position on the road and a tram stop position on the tram tracks. But PTSA shows three stops: the pole is used for a bus stop and for a tram stop. The reason is that the pole has a <code>tram=yes</code>. Thus, PTSA assigns the tram stop position not only to the platform but also to the pole, because this stop position serves a modality the pole supports and the pole has no other stop position nearby for this modality. This is a tagging mistake in OSM.</p>
 
     <p><a href="https://www.fh-zwickau.de/service/impressum/">Imprint</a> | <a href="https://www.fh-zwickau.de/service/datenschutz/">Data Privacy</a> | <a href="https://www.fh-zwickau.de/service/barrierefreiheitserklaerung/">Accessibility</a></p>
 </body>
