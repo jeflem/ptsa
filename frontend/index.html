@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Test Map 1</title>
+    <title>PTSA - Public Transport Stop Analysis for OSM</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="leaflet.css" />
@@ -57,7 +57,7 @@
 
                 <div onclick="redraw()"><input id="render" type="radio" name="color" /><label for="render">Carto rendering (bus only)</label></div>
                 <div onclick="redraw()" class="indented"><input id="render_no" type="checkbox" name="render_no" checked /><label for="render_no"><span style="color: #ff0000;"> ●</span> no bus symbol</label></div>
-                <div onclick="redraw()" class="indented"><input id="render_inc" type="checkbox" name="render_inc" checked /><label for="render_inc"><span style="color: #ffff00;"> ●</span> incorrect bus symbol</label></div>
+                <div onclick="redraw()" class="indented"><input id="render_inc" type="checkbox" name="render_inc" checked /><label for="render_inc"><span style="color: #ffff00;"> ●</span> missplaced bus symbol</label></div>
                 <div onclick="redraw()" class="indented"><input id="render_station" type="checkbox" name="render_station" checked /><label for="render_station"><span style="color: #00ffC0;"> ●</span> acceptable</label></div>
                 <div onclick="redraw()" class="indented"><input id="render_good" type="checkbox" name="render_good" checked /><label for="render_good"><span style="color: #00ff00;"> ●</span> good</label></div>
 
