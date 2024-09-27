@@ -284,14 +284,20 @@ def process(config):
                     if 'layer' not in df.loc[n_id, 'obj'].tags:
                         df.loc[n_id, 'obj'].tags['layer'] = w.tags.get('layer')
                     else: # belongs to multiple layers
-                        df.loc[n_id, 'obj'].multiple_values = True
-                        df.loc[n_id, 'obj'].tags['layer'] += ';' + w.tags.get('layer')
+                        layers = df.loc[n_id, 'obj'].tags['layer'].split(';') + w.tags['layer'].split(';')
+                        layers = set(layers)
+                        if len(layers) > 0:
+                            df.loc[n_id, 'obj'].multiple_values = True
+                        df.loc[n_id, 'obj'].tags['layer'] = ';'.join(layers)
                 if w.tags.get('level'):
                     if 'level' not in df.loc[n_id, 'obj'].tags:
                         df.loc[n_id, 'obj'].tags['level'] = w.tags.get('level')
                     else: # belongs to multiple levels
-                        df.loc[n_id, 'obj'].multiple_values = True
-                        df.loc[n_id, 'obj'].tags['level'] += ';' + w.tags.get('level')
+                        levels = df.loc[n_id, 'obj'].tags['level'].split(';') + w.tags['level'].split(';')
+                        levels = set(levels)
+                        if len(levels) > 0:
+                            df.loc[n_id, 'obj'].multiple_values = True
+                        df.loc[n_id, 'obj'].tags['level'] = ';'.join(levels)
 
     del ways, ways_mods
 
