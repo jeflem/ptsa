@@ -31,6 +31,8 @@ If you want to rerun PTSA for one region only without loosing data from other re
 
 Tiles directory will take about 80 GB with almost 20 million files. Check your free inode count before you start! It's a good idea to use a file system specially crafted for lots of small files (search the web for 'inode ratio' or 'mke2fs -T news').
 
+Ploles directory will take about 20 GB with almost 5 million files. Thus, total disk usage of PTSA frontend on the webserver is about 100 GB with 25 million files.
+
 ### Frontend
 
 The frontend is HTML and JavaScript. Get it running as follows:
