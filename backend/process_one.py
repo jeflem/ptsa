@@ -117,7 +117,7 @@ def process(config):
         or a.has_tag('aerialway', 'station'):
             stations.append(a)
             dubious = False
-        if dubious:
+        if dubious and not any(['construction' in k for k in a.tags.keys()]):
             a.warning('area somehow related to public transport, but how?')
             dubobs.append(a)
 
