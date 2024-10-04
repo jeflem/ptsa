@@ -94,7 +94,7 @@ def process(config):
         or n.has_tag('railway', 'halt'):
             stations.append(n)
             dubious = False
-        if dubious:
+        if dubious and not any(['construction' in k for k in n.tags.keys()]):
             n.warning('node somehow related to public transport, but how?')
             dubobs.append(n)
 
