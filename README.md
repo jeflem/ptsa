@@ -19,7 +19,7 @@ The backend is a Python script which downloads data from OSM and generates vecto
 3. Adjust settings in `config.json` to your needs:
    * Set `overpass_url` to your private Overpass API instance. PTSA will download several gigabytes of data. Don't use a free public instance for such massive downloads. See [Overpass API Podman image](https://github.com/jeflem/overpass-podman) to set up a private instance.
    * Depending on your Overpass API instance you may have to provide an API key via `overpass_key`.
-   * Paths in `ploles_path` and `tiles_path` should point to subdirectories of PTSA's frontend HTML on your webserver. `tiles_tmp_path` is used while generating tiles and should reside in the frontend HTML directory, too (for performance reasons).
+   * Paths in `ploles_path` and `tiles_path` should point to subdirectories of PTSA's frontend HTML on your webserver. `tiles_tmp_path` and `tiles_old_path` are used while generating tiles and should reside in the frontend HTML directory, too (for performance reasons). Both are temporary directories and will be removed after tiles have been generated.
    * With `regions_mode` and `regions_codes` you may choose a subset of all available regions. `regions_mode` may be `"include"` or `"exclude"` to only process provided codes or to skip provided codes, respectively. Codes are case-sensitive and can be found in `regions.csv` (see [div4aep](https://github.com/jeflem/div4aep) on how to generate such a regions file).
    * All other settings are either self-explanatory or should not be modified. Else PTSA's results might be garbage.
 4. Ensure that paths provided in `ploles_path` and `tiles_path` exist and are writable by you (or the Python script in the next step).
