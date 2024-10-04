@@ -82,6 +82,68 @@ var hash = new L.Hash(map);
 
 //----------------------------------------------------------------------------
 
+function changeColor(id) {
+
+    mod_value = false;
+    warn_value = true;
+    render_value = true;
+    ptv2_value = true;
+    struct_value = true;
+    if (id == 'warn') {
+        warn_value = false;
+    }
+    if (id == 'render') {
+        mod_value = true;
+        render_value = false;
+    }
+    if (id == 'ptv2') {
+        ptv2_value = false;
+    }
+    if (id == 'struct') {
+        struct_value = false;
+    }
+    document.getElementById('mod_bus').disabled = mod_value;
+    document.getElementById('mod_trolleybus').disabled = mod_value;
+    document.getElementById('mod_share_taxi').disabled = mod_value;
+    document.getElementById('mod_tram').disabled = mod_value;
+    document.getElementById('mod_light_rail').disabled = mod_value;
+    document.getElementById('mod_train').disabled = mod_value;
+    document.getElementById('mod_monorail').disabled = mod_value;
+    document.getElementById('mod_subway').disabled = mod_value;
+    document.getElementById('mod_funicular').disabled = mod_value;
+    document.getElementById('mod_ferry').disabled = mod_value;
+    document.getElementById('mod_aerialway').disabled = mod_value;
+    document.getElementById('mod_none').disabled = mod_value;
+    document.getElementById('warn_warn').disabled = warn_value;
+    document.getElementById('warn_comm').disabled = warn_value;
+    document.getElementById('warn_none').disabled = warn_value;
+    document.getElementById('render_no').disabled = render_value;
+    document.getElementById('render_inc').disabled = render_value;
+    document.getElementById('render_station').disabled = render_value;
+    document.getElementById('render_good').disabled = render_value;
+    document.getElementById('ptv2_no').disabled = ptv2_value;
+    document.getElementById('ptv2_mix').disabled = ptv2_value;
+    document.getElementById('ptv2_yes').disabled = ptv2_value;
+    document.getElementById('struct_s').disabled = struct_value;
+    document.getElementById('struct_sp').disabled = struct_value;
+    document.getElementById('struct_sf').disabled = struct_value;
+    document.getElementById('struct_spf').disabled = struct_value;
+    document.getElementById('struct_p').disabled = struct_value;
+    document.getElementById('struct_f').disabled = struct_value;
+    document.getElementById('struct_pf').disabled = struct_value;
+    
+}
+
+document.getElementById('warn').addEventListener('change', () => changeColor('warn'));
+document.getElementById('render').addEventListener('change', () => changeColor('render'));
+document.getElementById('ptv2').addEventListener('change', () => changeColor('ptv2'));
+document.getElementById('struct').addEventListener('change', () => changeColor('struct'));
+
+changeColor('struct');
+
+
+//----------------------------------------------------------------------------
+
 const neutralColor = '#808080';
 
 const renderColors = {
