@@ -30,6 +30,7 @@
         <div id="sidebar">
             <button type="button" onclick="toggle_sidebar()" id="sb_button">toggle sidebar</button>
             <div class="sidebar_content">
+                <div onclick="redraw()"><input id="dubobs" type="checkbox" name="dubobs" /><label for="dubobs"><span style="color: #ff00ff;"> ●</span> dubious objects</label></div>
                 <h1>Modalities</h1>
                 <div style="overflow:hidden;">
                     <div style="width: 50%; float: left;">
@@ -76,8 +77,7 @@
                 <div onclick="redraw()" class="indented"><input id="struct_f" type="checkbox" name="struct_f" checked /><label for="struct_f"><span style="color: #ffff00;"> ●</span> platform only</label></div>
                 <div onclick="redraw()" class="indented"><input id="struct_pf" type="checkbox" name="struct_pf" checked /><label for="struct_pf"><span style="color: #ff0000;"> ●</span> pole and platform</label></div>
 
-                <h1>Objects</h1>
-                <div onclick="redraw()"><input id="dubobs" type="checkbox" name="dubobs" /><label for="dubobs"><span style="color: #ff00ff;"> ●</span> dubious objects</label></div>
+                <h1>Stop components</h1>
                 <div onclick="redraw()"><input id="stopos" type="checkbox" name="stopos" checked /><label for="stopos">stop positions</label></div>
                 <div onclick="redraw()"><input id="poles" type="checkbox" name="poles" checked /><label for="poles">poles</label></div>
                 <div onclick="redraw()"><input id="vpoles" type="checkbox" name="vpoles" /><label for="vpoles">virtual poles</label></div>
