@@ -57,6 +57,10 @@ handler.setFormatter(formatter)
 region_logger.addHandler(handler)
 del handler
 
+# create temporary ploles path (for new plole info files)
+logger.info('creating temporary ploles path...')
+os.system(f'mkdir {config["ploles_tmp_path"]}')
+
 # mark parents/leaves
 regions['is_parent'] = False
 for i in regions.index:
@@ -115,3 +119,14 @@ os.system(f'mv {config["tiles_tmp_path"]} {config["tiles_path"]}')
 logger.info('removing old tiles...')
 os.system(f'rm -r {config["tiles_old_path"]}')
 logger.info('...done')
+
+# replace old plole info files by new ones
+logger.info('replacing plole info files...')
+logger.info('moving old files to temporary location...')
+os.system(f'mv {config["ploles_path"]} {config["ploles_old_path"]}')
+logger.info('moving new files to destination path...')
+os.system(f'mv {config["ploles_tmp_path"]} {config["ploles_path"]}')
+logger.info('removing old files...')
+os.system(f'rm -r {config["ploles_old_path"]}')
+logger.info('...done')
+

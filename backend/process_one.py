@@ -1096,7 +1096,7 @@ def process(config):
             stopo_info['lat'] = stopos.loc[stopo_id, 'lat']
 
         # write file
-        file_name = config['ploles_path'] + config['region_code'] + str(plole_id) + '.json'
+        file_name = config['ploles_tmp_path'] + config['region_code'] + str(plole_id) + '.json'
         with open(file_name, 'w') as f:
             json.dump(data, f)
         

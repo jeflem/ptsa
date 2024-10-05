@@ -4,6 +4,8 @@
     "overpass_key": "",
     "regions_path": "regions.csv",
     "ploles_path": "/var/www/html/ploles/",
+    "ploles_tmp_path": "/var/www/html/ploles_tmp/",
+    "ploles_old_path": "/var/www/html/ploles_old/",
     "tiles_path": "/var/www/html/tiles/",
     "tiles_tmp_path": "/var/www/html/tiles_tmp/",
     "tiles_old_path": "/var/www/html/tiles_old/",
