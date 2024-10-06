@@ -112,21 +112,16 @@ logger.info('joining tiles...')
 os.system(f'mkdir {config["tiles_tmp_path"]}')
 cmd = f'tile-join --output-to-directory={config["tiles_tmp_path"]} --no-tile-compression {config["export_path"]}*.mbtiles'
 os.system(cmd)
-logger.info('moving old tiles to temporary location...')
-os.system(f'mv {config["tiles_path"]} {config["tiles_old_path"]}')
-logger.info('moving new tiles to destination path...')
-os.system(f'mv {config["tiles_tmp_path"]} {config["tiles_path"]}')
-logger.info('removing old tiles...')
-os.system(f'rm -r {config["tiles_old_path"]}')
 logger.info('...done')
 
-# replace old plole info files by new ones
-logger.info('replacing plole info files...')
-logger.info('moving old files to temporary location...')
+# replace tiles and ploles
+logger.info('moving old tiles and ploles to temporary location...')
+os.system(f'mv {config["tiles_path"]} {config["tiles_old_path"]}')
 os.system(f'mv {config["ploles_path"]} {config["ploles_old_path"]}')
-logger.info('moving new files to destination path...')
+logger.info('moving new tiles and ploles to destination path...')
+os.system(f'mv {config["tiles_tmp_path"]} {config["tiles_path"]}')
 os.system(f'mv {config["ploles_tmp_path"]} {config["ploles_path"]}')
-logger.info('removing old files...')
+logger.info('removing old tiles and ploles...')
+os.system(f'rm -r {config["tiles_old_path"]}')
 os.system(f'rm -r {config["ploles_old_path"]}')
 logger.info('...done')
-
