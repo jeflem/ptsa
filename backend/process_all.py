@@ -110,7 +110,7 @@ for i, osm_id in enumerate(to_process):
 # join tiles from all regions
 logger.info('joining tiles...')
 os.system(f'mkdir {config["tiles_tmp_path"]}')
-cmd = f'tile-join --output-to-directory={config["tiles_tmp_path"]} --no-tile-compression {config["export_path"]}*.mbtiles'
+cmd = f'tile-join --no-tile-size-limit --output-to-directory={config["tiles_tmp_path"]} --no-tile-compression {config["export_path"]}*.mbtiles'
 os.system(cmd)
 logger.info('...done')
 
