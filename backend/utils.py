@@ -157,7 +157,7 @@ def filesize2str(size):
 
 def overpass(query, config, ids_only=False, verbose=1):
 
-    preamble = '[output: json][timeout: {timeout}];\n'.format(
+    preamble = '[output: json][timeout: {timeout}][maxsize: 10000000000];\n'.format(
         timeout=str(config['overpass_timeout']),
     )
     r = requests.post(
