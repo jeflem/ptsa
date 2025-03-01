@@ -914,6 +914,7 @@ def process(config):
                             or (plafos.loc[plafo_id, 'obj'].has_tag('highway', 'bus_stop')
                                 and (plafos.loc[plafo_id, 'obj'].has_tag('area', 'yes') \
                                     or 'building' in plafos.loc[plafo_id, 'obj'].tags)))
+        # note: "not plafo_visible" implies "not plafo_symbol"
 
         sum_symbol = [stopo_symbol, pole_symbol, plafo_symbol].count(True)
         if sum_symbol == 0:
@@ -921,10 +922,11 @@ def process(config):
         elif sum_symbol > 1:
             render = 2
         else:  # exactly one bus symbol
+            # note: if there is a visible plafo, then position of symbol does not matter
             if not plafo_visible and pole_id > 0 and not pole_symbol:
-                render = 2
-            elif not plafo_visible and pole_id <= 0:
-                render = 2
+                render = 2  # symbol at stopo although there's a pole
+            elif plafo_id != 0 and not plafo_visible and pole_id <= 0:
+                render = 2  # symbol at stopo with invisible plafo (not good, because plafo should be visible (symbol at stopo is okay))
             else:
                 render = 3
 
