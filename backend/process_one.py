@@ -588,7 +588,21 @@ def process(config):
     # ploles for plafo-pole combinations
     for plafo_id in plafos.index:
         plafo = plafos.loc[plafo_id, :]
-        weight = 1 if len(plafo['pole_ids']) == 1 else 0.5  # for averaging scores
+        # note: If plafo has two (or more) poles, the resulting ploles' stopo
+        #       scores have to depend on the poles (else stopos will be assigned
+        #       by chance). If there's only one pole, then we may ignore the
+        #       pole/stopo score and solely rely on the plafo/stopo score. This
+        #       was the original behavior till March 2025. But maybe it's better
+        #       to always put some weight on the pole's score, too. If there are
+        #       two plafos in parallel with two stopos in between, each stopo
+        #       close to one end of the platform pair, then stopo assignment to
+        #       plafos is by chance without considering pole scores (distance!),
+        #       because distances of both stopos to both plafos are almost
+        #       identical (up to random noise). Poles often are placed at the
+        #       front end (in driving direction) of plafos, thus, closer to the
+        #       correct stop position.
+        #weight = 1 if len(plafo['pole_ids']) == 1 else 0.5  # for averaging scores
+        weight = 0.5
         for pole_id in plafo['pole_ids']:
             pole = poles.loc[pole_id, :]
             if pole['has_plafo']:
@@ -607,6 +621,21 @@ def process(config):
                 stopo_ids.append(id_)
                 score = weight * plafo['stopo_infos'][id_]['score'] \
                         + (1 - weight) * pole['stopo_infos'][id_]['score']
+                stopo_infos[id_] = {'score': score, 'mods_match': True}
+
+            # add stopos of plafo that are far away from pole but for which pole and stopo mods match
+            # (for very long plafos pole might be too far away from relevant stopo)
+            for id_ in set(plafo['stopo_ids']) - set(pole['stopo_ids']):
+                stopo = stopos.loc[id_, :]
+                if not mods_stopos_to_ploles(pole['mods'], pole['maybe_mods'], stopo):
+                    continue
+                # note: pole/stopo pair has distance score 0 ("too far away")
+                pole_score = matches_to_score(score_stopos_to_ploles(pole['obj'], stopo['obj']))
+                if pole_score < 0:
+                    continue
+                stopo_ids.append(id_)
+                score = weight * plafo['stopo_infos'][id_]['score'] \
+                        + (1 - weight) * pole_score
                 stopo_infos[id_] = {'score': score, 'mods_match': True}
 
             # sort stopos by score
