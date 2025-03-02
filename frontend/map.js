@@ -212,7 +212,7 @@ function getWarnColor(props) {
 
 function stoposStyler(props, zoom) {
     vis = document.getElementById('stopos').checked;
-    mods_vis = mods_visible(props['mods']);
+    mods_vis = mods_visible(props['stop_mods']);
     if (!(vis == true && mods_vis == true)) {
         return [];
     }
@@ -241,7 +241,7 @@ function polesStyler(props, zoom) {
     } else {
         vis = document.getElementById('vpoles').checked;
     }
-    mods_vis = mods_visible(props['mods']);
+    mods_vis = mods_visible(props['stop_mods']);
     if (!(vis == true && mods_vis == true)) {
         return [];
     }
@@ -266,7 +266,7 @@ function polesStyler(props, zoom) {
 
 function plafosStyler(props, zoom) {
     vis = document.getElementById('plafos').checked;
-    mods_vis = mods_visible(props['mods']);
+    mods_vis = mods_visible(props['stop_mods']);
     if (!(vis == true && mods_vis == true)) {
         return [];
     }

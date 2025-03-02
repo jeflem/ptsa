@@ -901,7 +901,27 @@ def process(config):
             stop['warnings'].append(f'stop with ambiguous modalities {mods2str(stop['maybe_mods'])} (check carefully, really weird)')
 
     # -------------------------------------------------------------------------
-    # add info about comments/warnings for plafo/pole/stop to stop
+    # for plafos/poles/stopos set mods of stops the objects appear in
+    # (for enabling/disabling objects in map based on stop mods)
+    
+    plafos['stop_mods'] = [set() for _ in plafos.index]
+    poles['stop_mods'] = [set() for _ in poles.index]
+    stopos['stop_mods'] = [set() for _ in stopos.index]
+    
+    for stop_id in stops.index:
+        stop_mods = stops.loc[stop_id, 'mods']
+        plafo_id = stops.loc[stop_id, 'plafo_id']
+        pole_id = stops.loc[stop_id, 'pole_id']
+        stopo_id = stops.loc[stop_id, 'stopo_id']
+        if plafo_id != 0:
+            plafos.loc[plafo_id, 'stop_mods'].update(stop_mods)
+        if pole_id > 0:
+            poles.loc[pole_id, 'stop_mods'].update(stop_mods)
+        if stopo_id > 0:
+            stopos.loc[stopo_id, 'stop_mods'].update(stop_mods)
+
+    # -------------------------------------------------------------------------
+    # add info about comments/warnings for plafo/pole/stopo to stop
 
     def has_comments(obj):
         if type(obj) != float:
@@ -1164,10 +1184,12 @@ def process(config):
     # -------------------------------------------------------------------------
     # mods to str
 
-    stopos['mods'] = stopos['mods'].apply(mods2str)
-    for df in [poles, plafos, stops]:
+    for df in [stopos, poles, plafos, stops]:
         df['mods'] = df['mods'].apply(lambda m: mods2str(m) if type(m) != float else '')
+    for df in [poles, plafos, stops]:
         df['maybe_mods'] = df['maybe_mods'].apply(lambda m: mods2str(m) if type(m) != float else '')    
+    for df in [stopos, poles, plafos]:
+        df['stop_mods'] = df['stop_mods'].apply(lambda m: mods2str(m) if type(m) != float else '')
     
     # -------------------------------------------------------------------------
     # object types (in JavaScript we cannot access an object's source)
@@ -1190,11 +1212,11 @@ def process(config):
     
     prefix = config['export_path'] + config['region_code'] + '_'
     
-    stopos[['geo', 'lon', 'lat', 'comments', 'warnings', 'mods', 'type']] \
+    stopos[['geo', 'lon', 'lat', 'comments', 'warnings', 'mods', 'stop_mods', 'type']] \
         .reset_index().to_crs(config['lon_lat_crs']).to_file(prefix + 'stopos.geojson', driver='GeoJSON')    
-    poles[['geo', 'lon', 'lat', 'comments', 'warnings', 'mods', 'maybe_mods', 'type']] \
+    poles[['geo', 'lon', 'lat', 'comments', 'warnings', 'mods', 'maybe_mods', 'stop_mods', 'type']] \
         .reset_index().to_crs(config['lon_lat_crs']).to_file(prefix + 'poles.geojson', driver='GeoJSON')    
-    plafos[['geo', 'lon', 'lat', 'comments', 'warnings', 'mods', 'maybe_mods', 'type']] \
+    plafos[['geo', 'lon', 'lat', 'comments', 'warnings', 'mods', 'maybe_mods', 'stop_mods', 'type']] \
         .reset_index().to_crs(config['lon_lat_crs']).to_file(prefix + 'plafos.geojson', driver='GeoJSON')
 
     cols = ['geo', 'lon', 'lat', 'warnings', 'mods', 'maybe_mods', 'render', 'ptv2',
