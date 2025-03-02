@@ -5,6 +5,7 @@
 * algorithm changes:
   * for ploles with platform and pole increase influence of pole on stop position matching (improves matching results for very long platforms with correct stop position far away from pole; improves matching results for pairs of parallel platforms with two stop positions in between)
 * bug fixes:
+  * improve visibility of dubious ways and relations
   * visibility of platforms/poles/stop positions follows modality of stops they belong to (instead of their own modality)
   * create plole-only stop, if plole has a modality not covered by matching stopos
   * Carto rendering of stop-position-only stops with bus symbol is "good" instead of "missplaced bus symbol"

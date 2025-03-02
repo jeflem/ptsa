@@ -1063,6 +1063,7 @@ def process(config):
         elif obj.type in ['way_area', 'mupo_area']:
             geo = obj.geometry if obj.from_line \
                 else shapely.unary_union(shapely.polygonize(obj.geometry))
+            geo = shapely.centroid(geo)
         else:
             logger.error(f'ERROR: unhandled object type {obj.type}')
             geo = Point()
