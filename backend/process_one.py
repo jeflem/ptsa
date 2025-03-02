@@ -656,6 +656,24 @@ def process(config):
         stops['stopo_id'].append(0)
         stops['stopo_reason'].append('')
 
+    # ploles with mod for which there's no stopo
+    # note: If there is a stopo with a relevant mod, the plole/stopo pair will
+    #       become a stop below. Thus, here we do not have to care about stopos
+    #       matching the plole but not being in a stop together with the plole
+    #       (because there's a better match with another plole or something like
+    #       that). This won't happen.
+    for plole_id in ploles.index[len_stopo_ids > 0]:
+        plole_mods = ploles.loc[plole_id, 'mods']
+        if plole_mods == set():
+            continue
+        stopo_mods = set().union(*stopos.loc[ploles.loc[plole_id, 'stopo_ids'], 'mods'])
+        if plole_mods - stopo_mods != set():
+            stops['plole_id'].append(plole_id)
+            stops['plafo_id'].append(ploles.loc[plole_id, 'plafo_id'])
+            stops['pole_id'].append(ploles.loc[plole_id, 'pole_id'])
+            stops['stopo_id'].append(0)
+            stops['stopo_reason'].append('')
+
     # add one stopo to each plole
     for plole_id in ploles.index[len_stopo_ids > 0]:
         stopo_id = ploles.loc[plole_id, 'stopo_ids'][0]
