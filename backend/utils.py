@@ -419,7 +419,9 @@ mods_props = {
                 'secondary_link',
                 'tertiary_link'
             ],
-            'psv': ['yes']
+            'psv': ['yes'],
+            'motor_vehicle:conditional': [''],
+            'motor_vehicle': ['yes']
         }
     },
     'trolleybus': {
@@ -447,7 +449,9 @@ mods_props = {
                 'secondary_link',
                 'tertiary_link'
             ],
-            'psv': ['yes']
+            'psv': ['yes'],
+            'motor_vehicle:conditional': [''],
+            'motor_vehicle': ['yes']
         }
     },
     'share_taxi': {
@@ -475,7 +479,9 @@ mods_props = {
                 'secondary_link',
                 'tertiary_link'
             ],
-            'psv': ['yes']
+            'psv': ['yes'],
+            'motor_vehicle:conditional': [''],
+            'motor_vehicle': ['yes']
         }
     },
     'tram': {

@@ -244,7 +244,7 @@ def process(config):
             out;
             '''.format(
                 node_ids=','.join([str(id_) for id_ in df.index]),
-                way_filters='\n'.join([f'way.all[{key}];' for key in track_keys])
+                way_filters='\n'.join([f'way.all["{key}"];' for key in track_keys])
             )
             _, ways, _ = overpass(query, config)
         else:
@@ -267,6 +267,9 @@ def process(config):
                 if w.has_tag(mod, 'no'):
                     continue
                 for key, values in mod_props['track_tags'].items():
+                    if '' in values and key in w.tags:  # '' indicates that the value doesn't matter
+                        w_mods.add(mod)
+                        break
                     if any([w.has_tag(key, value) for value in values]):
                         w_mods.add(mod)
                         break
