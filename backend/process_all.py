@@ -94,14 +94,15 @@ for i, osm_id in enumerate(to_process):
     config['region_code'] = code
     config['osm_id'] = osm_id
     try:
-        success = process(config)
+        success, msg = process(config)
     except Exception as e:
         logger.exception(e)
         success = False
+        msg = 'exception'
     if success:
         logger.info('...done')
     else:
-        logger.error('...failed')
+        logger.error(f'...failed ({msg})')
         logger.info('copying region\'s old ploles to temporary plole location...')
         os.system(f'cp {config["ploles_path"]}{config['region_code']}*.json {config["ploles_tmp_path"]}')
         logger.info('...done copying old ploles')

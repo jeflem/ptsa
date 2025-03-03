@@ -168,7 +168,7 @@ def overpass(query, config, ids_only=False, verbose=1):
 
     if r.status_code != 200:
         logger.error(f'overpass server returned {r.status_code} for query\n{query}')
-        return [], [], []
+        return [], [], [], 'overpass status code not 200'
     
     j = r.json()
     objects = j['elements']
@@ -179,6 +179,13 @@ def overpass(query, config, ids_only=False, verbose=1):
             logger.warning(f'overpass remarks: {j['remarks']}')
         if len(objects) == 0:
             logger.error(f'overpass returned: {r.content.decode()}')
+
+    remarks = j.get('remarks')
+    if remarks:
+        if 'out of memory' in remarks:
+            return [], [], [], 'overpass out of memory'
+        else:
+            return [], [], [], 'overpass non-memory remark'
 
     if ids_only:
         nodes = [obj.get('id') for obj in objects if obj.get('type') == 'node']
@@ -195,7 +202,7 @@ def overpass(query, config, ids_only=False, verbose=1):
         logger.info(f'OSM ways: {len(ways)}')
         logger.info(f'OSM relations: {len(rels)}')
     
-    return nodes, ways, rels
+    return nodes, ways, rels, ''
 
 
 def add_mods(mods1, mods2):

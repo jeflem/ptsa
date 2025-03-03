@@ -39,11 +39,13 @@ def process(config):
     out skel;
     '''.format(osm_id=config['osm_id'] + 3600000000)
 
-    nodes, ways, rels = overpass(query, config)
+    nodes, ways, rels, msg = overpass(query, config)
     del query
     if len(nodes) == 0 and len(ways) == 0 and len(rels) == 0:
         logger.error('overpass did not return anything, aborting')
-        return False
+        if msg == '':  # no overpass error
+            msg = 'no data'
+        return False, msg
 
     # -------------------------------------------------------------------------
     # make areas from ways and multipolygons
@@ -246,7 +248,9 @@ def process(config):
                 node_ids=','.join([str(id_) for id_ in df.index]),
                 way_filters='\n'.join([f'way.all["{key}"];' for key in track_keys])
             )
-            _, ways, _ = overpass(query, config)
+            _, ways, _, msg = overpass(query, config)
+            if msg != '':  # overpass error
+                return False, msg
         else:
             ways = []
 
@@ -1264,4 +1268,4 @@ def process(config):
               f'--layer=f_dubobs --output={prefix}dubobs.mbtiles {prefix}dubobs.geojson')
     logger.info('...done')
 
-    return True
+    return True, ''
