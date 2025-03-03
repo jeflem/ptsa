@@ -102,6 +102,9 @@ for i, osm_id in enumerate(to_process):
         logger.info('...done')
     else:
         logger.error('...failed')
+        logger.info('copying region\'s old ploles to temporary plole location...')
+        os.system(f'cp {config["ploles_path"]}{config['region_code']}*.json {config["ploles_tmp_path"]}')
+        logger.info('...done copying old ploles')
     
     # disable logging to region's log file
     region_logger.removeHandler(file_handler)
