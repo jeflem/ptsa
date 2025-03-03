@@ -4,6 +4,7 @@
 
 * new features:
   * more details in global log file if processing a region fails
+  * relax string matching for `name` and `ref_name` (ignore non-word characters)
 * algorithm changes:
   * for ploles with platform and pole increase influence of pole on stop position matching (improves matching results for very long platforms with correct stop position far away from pole; improves matching results for pairs of parallel platforms with two stop positions in between)
 * bug fixes:

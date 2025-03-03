@@ -1,4 +1,5 @@
 import logging
+import re
 import requests
 from shapely.geometry import Point, LineString
 
@@ -561,6 +562,17 @@ mods_props = {
         }
     }
 }
+
+
+# match name strings
+
+def names_match(name1, name2):
+
+    tokens1 = set([t for t in re.split(r'\W+', name1.lower()) if t != ''])
+    tokens2 = set([t for t in re.split(r'\W+', name2.lower()) if t != ''])
+
+    return 2 * len(tokens1 & tokens2) > min([len(tokens1), len(tokens2)])
+
 
 # combine scores for each matching criterion to overall score
 

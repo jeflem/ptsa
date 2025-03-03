@@ -438,8 +438,8 @@ def process(config):
         matches = []
         keys = plole.tags.keys() & stopo.tags.keys()
         if 'ref:IFOPT' in keys:
-            if stopo.tags['ref:IFOPT'] in plole.tags['ref:IFOPT'] \
-            or plole.tags['ref:IFOPT'] in stopo.tags['ref:IFOPT']:
+            if stopo.tags['ref:IFOPT'].startswith(plole.tags['ref:IFOPT']) \
+            or plole.tags['ref:IFOPT'].startswith(stopo.tags['ref:IFOPT']):
                 matches.append(1)
             else:
                 matches.append(-1)
@@ -462,16 +462,14 @@ def process(config):
         else:
             matches.append(0)
         if 'ref_name' in keys:
-            if stopo.tags['ref_name'] in plole.tags['ref_name'] \
-            or plole.tags['ref_name'] in stopo.tags['ref_name']:
+            if names_match(stopo.tags['ref_name'], plole.tags['ref_name']):
                 matches.append(1)
             else:
                 matches.append(-1)
         else:
             matches.append(0)
         if 'name' in keys:
-            if stopo.tags['name'] in plole.tags['name'] \
-            or plole.tags['name'] in stopo.tags['name']:
+            if names_match(stopo.tags['name'], plole.tags['name']):
                 matches.append(1)
             else:
                 matches.append(-1)
@@ -523,7 +521,7 @@ def process(config):
         if 'ref:IFOPT' in keys:
             # note: pole IFOPT may be longer than plafo IFOPT if plafo is used for
             #       multiple poles
-            if plafo.tags['ref:IFOPT'] in pole.tags['ref:IFOPT']:
+            if pole.tags['ref:IFOPT'].startswith(plafo.tags['ref:IFOPT']):
                 matches.append(1)
             else:
                 matches.append(-1)
@@ -546,14 +544,14 @@ def process(config):
         else:
             matches.append(0)
         if 'ref_name' in keys:
-            if plafo.tags['ref_name'] in pole.tags['ref_name']:
+            if names_match(plafo.tags['ref_name'], pole.tags['ref_name']):
                 matches.append(1)
             else:
                 matches.append(-1)
         else:
             matches.append(0)
         if 'name' in keys:
-            if plafo.tags['name'] in pole.tags['name']:
+            if names_match(plafo.tags['name'], pole.tags['name']):
                 matches.append(1)
             else:
                 matches.append(-1)
