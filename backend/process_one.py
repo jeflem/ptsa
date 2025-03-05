@@ -1,7 +1,9 @@
+import datetime
 import json
 import logging
 import geopandas as gpd
 import os
+import pandas as pd
 import requests
 import shapely
 from shapely.geometry import Point, LineString
@@ -1219,6 +1221,27 @@ def process(config):
     cols = ['id', 'lon', 'lat', 'plafo_id', 'pole_id', 'stopo_id', 'mods', 'maybe_mods']
     path = f'{config['data_tmp_path']}{config['region_code']}_stops.csv'
     stops.reset_index(names='id')[cols].to_csv(path, index=False)
+
+    # -------------------------------------------------------------------------
+    # export statistics
+
+    logger.info(f'exporting statistics')
+    
+    stats = pd.DataFrame({
+        'timestamp': [datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%d %H:%M:%S')],
+        'stops': [len(stops)],
+        'plafos': [len(plafos)],
+        'poles': [(poles.index > 0).sum()],
+        'stopos': [len(stopos)],
+        'dubobs': [len(dubobs)]
+    })
+
+    try:
+        stats_old = pd.read_csv(f'{config['data_path']}{config['region_code']}_stats.csv')
+        stats = pd.concat([stats_old, stats], ignore_index=True)
+    except:
+        logger.warning('no stats file found, creating new one')
+    stats.to_csv(f'{config['data_tmp_path']}{config['region_code']}_stats.csv', index=False)
 
     # -------------------------------------------------------------------------
     # export data for frontend
