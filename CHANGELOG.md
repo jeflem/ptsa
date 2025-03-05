@@ -3,6 +3,7 @@
 ## Next release (dev branch)
 
 * new features:
+  * CSV export of stop locations, stop modalities, stop components (OSM object IDs) for bulk download
   * more details in global log file if processing a region fails
   * relax string matching for `name` and `ref_name` (ignore non-word characters)
 * algorithm changes:

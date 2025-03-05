@@ -1212,9 +1212,18 @@ def process(config):
     stops['region'] = config['region_code']
 
     # -------------------------------------------------------------------------
-    # export
+    # export data for download
+
+    logger.info(f'exporting data for download')
     
-    logger.info(f'exporting {len(stops)} stops with {len(plafos)} platforms, {len(poles)} poles, {len(stopos)} stop positions')
+    cols = ['id', 'lon', 'lat', 'plafo_id', 'pole_id', 'stopo_id', 'mods', 'maybe_mods']
+    path = f'{config['data_tmp_path']}{config['region_code']}_stops.csv'
+    stops.reset_index(names='id')[cols].to_csv(path, index=False)
+
+    # -------------------------------------------------------------------------
+    # export data for frontend
+    
+    logger.info(f'exporting {len(stops)} stops with {len(plafos)} platforms, {len(poles)} poles, {len(stopos)} stop positions for frontend')
     
     prefix = config['export_path'] + config['region_code'] + '_'
     

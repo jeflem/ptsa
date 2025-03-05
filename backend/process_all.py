@@ -57,9 +57,10 @@ handler.setFormatter(formatter)
 region_logger.addHandler(handler)
 del handler
 
-# create temporary ploles path (for new plole info files)
-logger.info('creating temporary ploles path...')
+# create temporary ploles and data path
+logger.info('creating temporary ploles and data paths...')
 os.system(f'mkdir {config["ploles_tmp_path"]}')
+os.system(f'mkdir {config["data_tmp_path"]}')
 
 # mark parents/leaves
 regions['is_parent'] = False
@@ -106,6 +107,9 @@ for i, osm_id in enumerate(to_process):
         logger.info('copying region\'s old ploles to temporary plole location...')
         os.system(f'cp {config["ploles_path"]}{config['region_code']}*.json {config["ploles_tmp_path"]}')
         logger.info('...done copying old ploles')
+        logger.info('copying region\'s old data to temporary data location...')
+        os.system(f'cp {config["data_path"]}{config['region_code']}* {config["data_tmp_path"]}')
+        logger.info('...done copying old data')
     
     # disable logging to region's log file
     region_logger.removeHandler(file_handler)
@@ -118,14 +122,17 @@ cmd = f'tile-join --no-tile-size-limit --output-to-directory={config["tiles_tmp_
 os.system(cmd)
 logger.info('...done')
 
-# replace tiles and ploles
-logger.info('moving old tiles and ploles to temporary location...')
+# replace tiles, ploles, data
+logger.info('moving old tiles, ploles, data to temporary location...')
 os.system(f'mv {config["tiles_path"]} {config["tiles_old_path"]}')
 os.system(f'mv {config["ploles_path"]} {config["ploles_old_path"]}')
-logger.info('moving new tiles and ploles to destination path...')
+os.system(f'mv {config["data_path"]} {config["data_old_path"]}')
+logger.info('moving new tiles, ploles, data to destination path...')
 os.system(f'mv {config["tiles_tmp_path"]} {config["tiles_path"]}')
 os.system(f'mv {config["ploles_tmp_path"]} {config["ploles_path"]}')
-logger.info('removing old tiles and ploles...')
+os.system(f'mv {config["data_tmp_path"]} {config["data_path"]}')
+logger.info('removing old tiles, ploles, data...')
 os.system(f'rm -r {config["tiles_old_path"]}')
 os.system(f'rm -r {config["ploles_old_path"]}')
+os.system(f'rm -r {config["data_old_path"]}')
 logger.info('...done')
