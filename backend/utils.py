@@ -1,3 +1,4 @@
+import datetime
 import logging
 import re
 import requests
@@ -143,6 +144,9 @@ class Area(OSMObject):
                 for w in ways
             ] 
 
+def get_timestamp():
+    
+    return datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%d %H:%M:%S')
 
 def filesize2str(size):
 

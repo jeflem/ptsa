@@ -1,4 +1,3 @@
-import datetime
 import json
 import logging
 import geopandas as gpd
@@ -1228,7 +1227,7 @@ def process(config):
     logger.info(f'exporting statistics')
     
     stats = pd.DataFrame({
-        'timestamp': [datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%d %H:%M:%S')],
+        'timestamp': [get_timestamp()],
         'stops': [len(stops)],
         'plafos': [len(plafos)],
         'poles': [(poles.index > 0).sum()],

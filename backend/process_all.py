@@ -87,6 +87,8 @@ regions['plafos'] = 0
 regions['poles'] = 0
 regions['stopos'] = 0
 regions['dubobs'] = 0
+regions['process_start'] = ''
+regions['process_end'] = ''
 regions.loc[regions['is_parent'], 'stops'] = -1
 
 # get regions to process
@@ -110,6 +112,7 @@ for i, osm_id in enumerate(to_process):
     # process region
     region = regions.loc[osm_id, :]
     logger.info(f'processing region {i + 1}/{len(to_process)} ({region["name"]}, {code})...')
+    regions.loc[osm_id, 'process_start'] = get_timestamp()
     config['region'] = region['name']
     config['meters_crs'] = f'+proj=aeqd +lat_0={region["lat"]} +lon_0={region["lon"]}'
     config['region_code'] = code
@@ -130,6 +133,7 @@ for i, osm_id in enumerate(to_process):
         logger.info('copying region\'s old data to temporary data location...')
         os.system(f'cp {config["data_path"]}{config['region_code']}* {config["data_tmp_path"]}')
         logger.info('...done copying old data')
+    regions.loc[osm_id, 'process_end'] = get_timestamp()
     
     # copy region stats to region's data frame
     try:
@@ -162,6 +166,14 @@ while len(parents_todo) > 0:
         regions.loc[osm_id, 'poles'] = regions.loc[children_mask, 'poles'].sum()
         regions.loc[osm_id, 'stopos'] = regions.loc[children_mask, 'stopos'].sum()
         regions.loc[osm_id, 'dubobs'] = regions.loc[children_mask, 'dubobs'].sum()
+        date_mask = children_mask & (regions['process_start'] != '')
+        if date_mask.any():
+            regions.loc[osm_id, 'process_start'] = pd.to_datetime(
+                regions.loc[date_mask, 'process_start'], utc=True, format='%Y-%m-%d %H:%M:%S'
+            ).min().strftime('%Y-%m-%d %H:%M:%S')
+            regions.loc[osm_id, 'process_end'] = pd.to_datetime(
+                regions.loc[date_mask, 'process_end'], utc=True, format='%Y-%m-%d %H:%M:%S'
+            ).max().strftime('%Y-%m-%d %H:%M:%S')
         parents_todo.pop()
 regions.to_csv(f'{config['data_tmp_path']}regions.csv')
 
