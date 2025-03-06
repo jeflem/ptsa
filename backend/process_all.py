@@ -69,6 +69,26 @@ for i in regions.index:
     if parent_id != 0:
         regions.loc[parent_id, 'is_parent'] = True
 
+# create world regions (for world statistics)
+regions = pd.concat([regions, pd.DataFrame(data={
+    'name': 'World',
+    'code': 'WORLD',
+    'admin_level': 0,
+    'parent_osm_id': -1,
+    'lon': 0,
+    'lat': 0,
+    'radius': 0,
+    'is_parent': True
+}, index=[0])])
+
+# add colums for statistics (-1 for unprocessed parents)
+regions['stops'] = 0
+regions['plafos'] = 0
+regions['poles'] = 0
+regions['stopos'] = 0
+regions['dubobs'] = 0
+regions.loc[regions['is_parent'], 'stops'] = -1
+
 # get regions to process
 if config['regions_mode'] == 'include':
     include_mask = regions['code'].isin(config['regions_codes'])
@@ -111,9 +131,39 @@ for i, osm_id in enumerate(to_process):
         os.system(f'cp {config["data_path"]}{config['region_code']}* {config["data_tmp_path"]}')
         logger.info('...done copying old data')
     
+    # copy region stats to region's data frame
+    try:
+        stats = pd.read_csv(f'{config['data_tmp_path']}{config['region_code']}_stats.csv')
+        i = stats.index[-1]
+        regions.loc[osm_id, 'stops'] = stats.loc[i, 'stops']
+        regions.loc[osm_id, 'plafos'] = stats.loc[i, 'plafos']
+        regions.loc[osm_id, 'poles'] = stats.loc[i, 'poles']
+        regions.loc[osm_id, 'stopos'] = stats.loc[i, 'stopos']
+        regions.loc[osm_id, 'dubobs'] = stats.loc[i, 'dubobs']
+    except:
+        logger.warning('region has no stats file')
+    
     # disable logging to region's log file
     region_logger.removeHandler(file_handler)
     del file_handler
+
+# make stats for parent regions
+logger.info('creating regions data')
+parents_todo = [0]
+while len(parents_todo) > 0:
+    osm_id = parents_todo[-1]
+    children_mask = regions['parent_osm_id'] == osm_id
+    unprocessed_mask = children_mask & (regions['stops'] == -1)
+    if unprocessed_mask.any():
+        parents_todo.extend(list(regions.index[unprocessed_mask]))
+    else:  # all children already processed
+        regions.loc[osm_id, 'stops'] = regions.loc[children_mask, 'stops'].sum()
+        regions.loc[osm_id, 'plafos'] = regions.loc[children_mask, 'plafos'].sum()
+        regions.loc[osm_id, 'poles'] = regions.loc[children_mask, 'poles'].sum()
+        regions.loc[osm_id, 'stopos'] = regions.loc[children_mask, 'stopos'].sum()
+        regions.loc[osm_id, 'dubobs'] = regions.loc[children_mask, 'dubobs'].sum()
+        parents_todo.pop()
+regions.to_csv(f'{config['data_tmp_path']}regions.csv')
 
 # join tiles from all regions
 logger.info('joining tiles...')
