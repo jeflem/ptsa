@@ -299,8 +299,8 @@ function getStopColor(props) {
     }
     
     if (document.getElementById('warn').checked == true) {
-        var comm = props['member_comments'] == 'True';
-        var warn = props['member_warnings'] == 'True' || props['warnings'] != '';
+        var comm = props['member_comments'] == true;
+        var warn = props['member_warnings'] == true || props['warnings'] != '';
         if (warn == true && document.getElementById('warn_warn').checked == true) {
             return warnColors['warn'];
         } else if (comm == true && document.getElementById('warn_comm').checked == true) {
