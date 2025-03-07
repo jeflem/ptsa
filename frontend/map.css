@@ -20,6 +20,19 @@ header h1 {
     padding-left: 10px;
     padding-top: 5px;
     font-size: 30px;
+    width: 70%;
+}
+
+@media (max-width: 70em) { 
+    header h1 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 50em) { 
+    header h1 {
+        font-size: 18px;
+    }
 }
 
 #imprint {
@@ -39,6 +52,17 @@ header h1 {
     margin: 0;
     padding: 0;
     padding-right: 10px;
+}
+
+#logo img {
+    height: 45px;
+    padding-top: 3px;
+}
+
+@media (max-width: 40em) { 
+    #logo img {
+        height: 30px;
+    }
 }
 
 #content {
