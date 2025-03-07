@@ -13,6 +13,7 @@ with open('config.json') as f:
     config = json.load(f)
 
 # set up logging
+os.system(f'mv {config['logs_path']}process_all.log {config['logs_path']}process_all.log.previous')
 logger = logging.getLogger('process_all')
 logger.setLevel(logging.DEBUG if config.get('debug') else logging.INFO)
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
