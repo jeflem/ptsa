@@ -11,6 +11,7 @@
 * algorithm changes:
   * for ploles with platform and pole increase influence of pole on stop position matching (improves matching results for very long platforms with correct stop position far away from pole; improves matching results for pairs of parallel platforms with two stop positions in between)
 * bug fixes:
+  * better layout for mobile devices
   * color of stops with components having comments/warnings now is yellow/red
   * keep old plole details files if processing a region fails
   * allow ways with `motor_vehicle=yes` or `motor_vehicle:conditional=*` for bus/trolleybus/share_taxi 
