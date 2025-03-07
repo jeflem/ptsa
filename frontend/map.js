@@ -560,6 +560,16 @@ function toggle_sidebar() {
     }
 }
 
+function go_to_location(lat, lon) {
+    window.location.assign('index.html#19/' + lat + '/' + lon);
+}
+
+function my_location() {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        go_to_location(position.coords.latitude, position.coords.longitude);
+    });
+}
+
 function redraw() {
     ptsaLayer.redraw();
 }

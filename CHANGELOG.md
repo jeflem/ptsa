@@ -3,6 +3,7 @@
 ## Next release (dev branch)
 
 * new features:
+  * button centering the map at your location
   * CSV export of stop locations, stop modalities, stop components (OSM object IDs) for bulk download
   * CSV export of statistics on number of stops and stop components
   * CSV and HTML export of statistics for all regions and their parent regions
