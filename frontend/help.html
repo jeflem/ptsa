@@ -5,12 +5,14 @@
     <title>PTSA Help</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="help.css" />
+    <link rel="stylesheet" href="onepage.css" />
 </head>
 
 <body>
     <h1>PTSA Help</h1>
-    
+
+    <p><a href="index.html">back to PTSA map</a></p>
+
     <ul>
         <li><a href="#what">What is PTSA?</a></li>
         <li><a href="#when">When/Why do I need PTSA?</a></li>
@@ -116,7 +118,7 @@
     
     <h3>Bus stop with platform and stop position</h3>
     <p><img alt="map and details pages screenshot" src="help/example2.png" /></p>
-    <p>The platform of interest has many nearby stop positions. The closest one is stop position 4. But layer an level differ. The more distant stop position 3 has matching tags. Thus, PTSA chooses this one.</p>
+    <p>The platform of interest has many nearby stop positions. The closest one is stop position 4. But layer and level differ. The more distant stop position 3 has matching tags. Thus, PTSA chooses this one.</p>
     
     <h3>Bus stop with incorrect non-match of plole and stop position</h3>
     <p><img alt="map and details pages screenshot" src="help/example3.png" /></p>
@@ -126,6 +128,8 @@
     <p><img alt="map and details pages screenshot" src="help/example4.png" /></p>
     <p>From object locations on the map we easily deduce that there is a bus pole, a tram platform, a bus stop position on the road and a tram stop position on the tram tracks. But PTSA shows three stops: the pole is used for a bus stop and for a tram stop. The reason is that the pole has a <code>tram=yes</code>. Thus, PTSA assigns the tram stop position not only to the platform but also to the pole, because this stop position serves a modality the pole supports and the pole has no other stop position nearby for this modality. This is a tagging mistake in OSM.</p>
 
+    <p><a href="index.html">back to PTSA map</a></p>
+    
     <p><a href="https://www.fh-zwickau.de/service/impressum/">Imprint</a> | <a href="https://www.fh-zwickau.de/service/datenschutz/">Data Privacy</a> | <a href="https://www.fh-zwickau.de/service/barrierefreiheitserklaerung/">Accessibility</a></p>
 </body>
 

@@ -4,8 +4,8 @@
 
 * new features:
   * CSV export of stop locations, stop modalities, stop components (OSM object IDs) for bulk download
-  * export statistics on number of stops and stop components
-  * export statistics for all regions and their parent regions
+  * CSV export of statistics on number of stops and stop components
+  * CSV and HTML export of statistics for all regions and their parent regions
   * more details in global log file if processing a region fails
   * relax string matching for `name` and `ref_name` (ignore non-word characters)
 * algorithm changes:

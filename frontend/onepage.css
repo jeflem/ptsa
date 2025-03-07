@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    padding: 10px;
+    font-family: sans;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+em {
+    font-weight: bold;
+    font-style: normal;
+}
+
+code {
+    font-size: larger;
+}
+    
+#region-table {
+  border-collapse: collapse;
+}
+
+#region-table tr:nth-child(odd) {
+  background-color: #e0e0e0;
+}
+
+#region-table tr:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+#region-table th, #region-table td {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #808080;
+  padding: 0px 1em;
+  text-align: left;
+}
