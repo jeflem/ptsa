@@ -22,6 +22,8 @@
     On the top level PTSA considers regions with <code>admin_level</code> 2. If a region is too large for processing, the region is divided into subregions with <a href="https://github.com/jeflem/div4aep">div4aep</a> resulting in higher <code>admin_level</code> values.
     </p>
     
+    <h2>CSV columns</h2>
+    
     <p>Columns in region list:
     <ul>
         <li><em>osm_id</em>: OSM ID of relation describing the region's border</li>
@@ -67,7 +69,11 @@
     </ul>
     </p>
 
-    <p>Download: <a href="data/regions.csv">Region list</a> (CSV file)</p>
+    <h2>Download</h2>
+    
+    <p style="font-weight: bold;">PTSA data provided below is based on <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> and made available under the <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Database License</a>.</p>
+    
+    <p><a href="data/regions.csv">Region list</a> (CSV file)</p>
     
     <p>Stop lists and statistics for each region may be found in last column of below table. Data shown in the table is provided in the region list CSV file.</p>
 
