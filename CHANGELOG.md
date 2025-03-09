@@ -1,6 +1,6 @@
 # Changelog
 
-## Next release (dev branch)
+## Release 2025-03-09
 
 * new features:
   * button centering the map at your location
