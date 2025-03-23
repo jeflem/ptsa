@@ -867,8 +867,17 @@ def process(config):
             mods.update(stopo_mods)
         elif stopo_id == 0:
             if plole_mods != set():
-                mods.update(plole_mods)
-                maybe_mods.update(plole_maybe_mods)
+                # note: Here we have a plole-only stop. The same plole might be
+                # used in other stops (with stopos). Thus, the plole-only stop
+                # only should have mods and maybe_mods not covered by the
+                # plole's stopo-stops.
+                plole_stopo_ids = list(stops.loc[stops['plole_id'] == plole_id, 'stopo_id'])
+                plole_stopo_ids = [i for i in plole_stopo_ids if i > 0]
+                plole_stopo_mods = set()
+                if len(plole_stopo_ids) > 0:
+                    plole_stopo_mods.update(*stopos.loc[plole_stopo_ids, 'mods'])
+                mods.update(plole_mods - plole_stopo_mods)
+                maybe_mods.update(plole_maybe_mods - plole_stopo_mods)
             elif len(plole_maybe_mods) == 1:
                 mods.update(plole_maybe_mods)
             else:

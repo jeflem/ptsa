@@ -1,5 +1,10 @@
 # Changelog
 
+## Next release
+
+* bug fixes:
+  * only show relevant modalities for plole-only stops if plole also appears in stops with stop position
+
 ## Release 2025-03-09
 
 * new features:
