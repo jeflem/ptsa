@@ -11,6 +11,7 @@
   * make additional platform-only plole if pole does not cover all modalities of a platform
   * if pole matches multiple platforms, choose the match with highest score instead of by chance
   * take care of multiple values for `ref:IFOPT`
+  * do not handle `amenity=ferry_terminal` objects as stop positions if they have `public_transport=station`
 
 ## Release 2025-03-09
 

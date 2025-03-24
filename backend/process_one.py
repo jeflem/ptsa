@@ -78,7 +78,7 @@ def process(config):
         or (n.has_tag('highway', 'bus_stop')
             and not n.has_tag('public_transport', 'platform')) \
         or n.has_tag('amenity', 'bus_stop') \
-        or n.has_tag('amenity', 'ferry_terminal') \
+        or (n.has_tag('amenity', 'ferry_terminal') and not n.has_tag('public_transport', 'station')) \
         or n.has_tag('railway', 'stop') \
         or (n.has_tag('railway', 'tram_stop') \
             and not n.has_tag('public_transport', 'platform')
@@ -116,7 +116,7 @@ def process(config):
         or a.has_tag('highway', 'platform') \
         or a.has_tag('amenity', 'bus_stop') \
         or a.has_tag('railway', 'platform') \
-        or a.has_tag('amenity', 'ferry_terminal'):
+        or (a.has_tag('amenity', 'ferry_terminal') and not n.has_tag('public_transport', 'station')):
             plafos.append(a)
             dubious = False
         if a.has_tag('public_transport', 'station') \
