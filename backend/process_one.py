@@ -590,7 +590,7 @@ def process(config):
     # get best matching plafo for each pole (by score)
 
     poles['best_plafo_id'] = 0
-    poles['best_plafo_score'] = -1
+    poles['best_plafo_score'] = -1.0
     for plafo_id in plafos.index:
         plafo = plafos.loc[plafo_id, :]
         for pole_id in plafo['pole_ids']:
