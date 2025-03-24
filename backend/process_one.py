@@ -66,6 +66,7 @@ def process(config):
     plafos = []
     stations = []
     dubobs = []
+    dubobs_cats = []  # category for each dubob
 
     for n in nodes:
         if len(n.tags) == 0:
@@ -102,6 +103,7 @@ def process(config):
         if dubious:
             n.warning('node somehow related to public transport, but how?')
             dubobs.append(n)
+            dubobs_cats.append('HOW')
 
     for a in areas:
         if len(a.tags) == 0:
@@ -127,6 +129,7 @@ def process(config):
         if dubious:
             a.warning('area somehow related to public transport, but how?')
             dubobs.append(a)
+            dubobs_cats.append('HOW')
 
     del dubious, nodes
     logger.info(f'stop positions: {len(stopos)}')
@@ -318,6 +321,7 @@ def process(config):
 
     pole_ids = []  # dropped stopos that are in poles data frame
     to_dubobs_ids = []  # dropped stopos that are not in poles data frame
+    to_dubobs_cats = []  # categories for dubobs
 
     stopos['mods'] = [set() for _ in stopos.index]
 
@@ -335,12 +339,15 @@ def process(config):
                 if tag_maybe_mods == set():
                     obj.warning(f'node tagged as stop position but neither has modality tags nor is on any relevant track')
                     to_dubobs_ids.append(id_)
+                    to_dubobs_cats.append('STOPO_NO_MODS')
                 else:
                     obj.warning(f'node tagged as stop position with ambiguous modalities {mods2str(tag_maybe_mods)}, but node is not on any relevant track')
                     to_dubobs_ids.append(id_)
+                    to_dubobs_cats.append('STOPO_NO_TRACK')
             else:  # there are modality tags
                 obj.warning(f'node is tagged as stop position for {mods2str(tag_mods)}, but is not on any relevant track')
                 to_dubobs_ids.append(id_)
+                to_dubobs_cats.append('STOPO_NO_TRACK')
         else:  # node is on some track
             all_tag_mods = tag_mods | tag_maybe_mods
             if all_tag_mods == set():
@@ -351,9 +358,11 @@ def process(config):
                 if mods == set():
                     obj.warning(f'stop position for which tagged modalities {mods2str(all_tag_mods)} do not match track modalities {mods2str(track_mods)}')
                     to_dubobs_ids.append(id_)
+                    to_dubobs_cats.append('STOPO_NO_TRACK')
 
     # remove invalid stopos
     dubobs.extend(stopos.loc[to_dubobs_ids, 'obj'].to_list())
+    dubobs_cats.extend(to_dubobs_cats)
     stopos = stopos.drop(index=to_dubobs_ids + pole_ids)
     logger.info(f'moved {len(to_dubobs_ids)} invalid stopos to dubobs, removed {len(pole_ids)} invalid stopos that are poles')
 
@@ -363,6 +372,7 @@ def process(config):
     # remove modalities from poles if on corresponding track
 
     to_dubobs_ids = []  # dropped poles
+    to_dubobs_cats = []  # categories for dubobs
 
     stopo_ids = []  # dropped poles that are in stopos data frame
     poles['mods'] = [set() for _ in poles.index]
@@ -394,11 +404,13 @@ def process(config):
             else:
                 obj.warning('pole without modalities')
                 to_dubobs_ids.append(id_)
+                to_dubobs_cats.append('POLE_NO_MODS')
         elif len(mods) == 0:
             obj.comment('pole with ambiguous modality tags')
 
     # remove invalid poles
     dubobs.extend(poles.loc[to_dubobs_ids, 'obj'].to_list())
+    dubobs_cats.extend(to_dubobs_cats)
     poles = poles.drop(index=to_dubobs_ids + stopo_ids)
     logger.info(f'moved {len(to_dubobs_ids)} invalid poles to dubobs, removed {len(stopo_ids)} invalid poles that are stopos')
 
@@ -1104,12 +1116,13 @@ def process(config):
     # -------------------------------------------------------------------------
     # dubobs data frame
 
-    dubobs_dict = {'osm_type': [], 'osm_id': [], 'obj': [], 'geo': []}
+    dubobs_dict = {'osm_type': [], 'osm_id': [], 'obj': [], 'cat': [], 'geo': []}
 
-    for obj in dubobs:
+    for obj, cat in zip(dubobs, dubobs_cats):
         dubobs_dict['osm_type'].append(obj.type)
         dubobs_dict['osm_id'].append(obj.id)
         dubobs_dict['obj'].append(obj)
+        dubobs_dict['cat'].append(cat)
         if obj.type == 'node':
             geo = Point(obj.lon, obj.lat)
         elif obj.type in ['way_area', 'mupo_area']:
@@ -1309,7 +1322,7 @@ def process(config):
     stops['geo'] = stops['geo'].centroid
     stops[cols].reset_index().to_crs(config['lon_lat_crs']).to_file(prefix + 'nstops.geojson', driver='GeoJSON')    
         
-    dubobs[['geo', 'lon', 'lat', 'osm_type', 'osm_id', 'warnings', 'comments', 'type']] \
+    dubobs[['geo', 'lon', 'lat', 'osm_type', 'osm_id', 'cat', 'warnings', 'comments', 'type']] \
         .reset_index().to_crs(config['lon_lat_crs']).to_file(prefix + 'dubobs.geojson', driver='GeoJSON')
 
     # -------------------------------------------------------------------------

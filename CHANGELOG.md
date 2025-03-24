@@ -2,6 +2,8 @@
 
 ## Next release
 
+* new feature:
+  * dubious objects are split into several categories
 * algorithm changes:
   * ignore objects with lifecycle prefixes
 * bug fixes:

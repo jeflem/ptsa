@@ -32,7 +32,11 @@
             <button type="button" onclick="toggle_sidebar()" id="sb_button">toggle sidebar</button>
             <button type="button" onclick="my_location()" id="sb_button">my location</button>
             <div class="sidebar_content">
-                <div onclick="redraw()"><input id="dubobs" type="checkbox" name="dubobs" /><label for="dubobs"><span style="color: #ff00ff;"> ●</span> dubious objects</label></div>
+                <h1>Dubious objects</h1>
+                <div onclick="redraw()"><input id="dubobs_stopo_no_track" type="checkbox" name="dubobs_stopo_no_track" /><label for="dubobs_stopo_no_track"><span style="color: #ff00ff;"> ●</span> stop positions not on track</label></div>
+                <div onclick="redraw()"><input id="dubobs_stopo_no_mods" type="checkbox" name="dubobs_stopo_no_mods" /><label for="dubobs_stopo_no_mods"><span style="color: #ff00ff;"> ●</span> stop pos. without modalities</label></div>
+                <div onclick="redraw()"><input id="dubobs_pole_no_mods" type="checkbox" name="dubobs_pole_no_mods" /><label for="dubobs_pole_no_mods"><span style="color: #ff00ff;"> ●</span> poles without modalities</label></div>
+                <div onclick="redraw()"><input id="dubobs_how" type="checkbox" name="dubobs_how" /><label for="dubobs_how"><span style="color: #ff00ff;"> ●</span> other</label></div>
                 <h1>Modalities</h1>
                 <div style="overflow:hidden;">
                     <div style="width: 50%; float: left;">

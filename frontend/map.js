@@ -393,7 +393,17 @@ function nstopsStyler(props, zoom) {
 }
 
 function dubobsStyler(props, zoom) {
-    vis = document.getElementById('dubobs').checked;
+    if (props['cat'] == 'STOPO_NO_TRACK') {
+        vis = document.getElementById('dubobs_stopo_no_track').checked;
+    } else if (props['cat'] == 'STOPO_NO_MODS') {
+        vis = document.getElementById('dubobs_stopo_no_mods').checked;
+    } else if (props['cat'] == 'POLE_NO_MODS') {
+        vis = document.getElementById('dubobs_pole_no_mods').checked;
+    } else if (props['cat'] == 'HOW') {
+        vis = document.getElementById('dubobs_how').checked;
+    } else {
+        vis = false;
+    }
     if (vis == true) {
         return({
             radius: 7,
