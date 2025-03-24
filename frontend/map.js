@@ -401,10 +401,8 @@ function dubobsStyler(props, zoom) {
         vis = document.getElementById('dubobs_pole_no_mods').checked;
     } else if (props['cat'] == 'PLATFORM_NO_PT') {
         vis = document.getElementById('dubobs_platform_no_pt').checked;
-    } else if (props['cat'] == 'HOW') {
-        vis = document.getElementById('dubobs_how').checked;
-    } else {
-        vis = false;
+    } else { // props['cat'] == 'OTHER'
+        vis = document.getElementById('dubobs_other').checked;
     }
     if (vis == true) {
         return({

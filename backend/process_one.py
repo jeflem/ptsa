@@ -103,7 +103,7 @@ def process(config):
         if dubious:
             n.warning('node somehow related to public transport, but how?')
             dubobs.append(n)
-            dubobs_cats.append('HOW')
+            dubobs_cats.append('OTHER')
 
     for a in areas:
         if len(a.tags) == 0:
@@ -129,7 +129,7 @@ def process(config):
         if dubious:
             a.warning('area somehow related to public transport, but how?')
             dubobs.append(a)
-            dubobs_cats.append('HOW')
+            dubobs_cats.append('OTHER')
 
     del dubious, nodes
     logger.info(f'stop positions: {len(stopos)}')
