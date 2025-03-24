@@ -1,6 +1,6 @@
 # Changelog
 
-## Next release
+## Release 2025-03-24
 
 * new feature:
   * dubious objects are split into several categories
