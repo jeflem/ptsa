@@ -70,6 +70,8 @@ def process(config):
     for n in nodes:
         if len(n.tags) == 0:
             continue
+        if any([any([s in k for s in config['ignore_objects_with']]) for k in n.tags.keys()]):
+            continue
         dubious = True
         if n.has_tag('public_transport', 'stop_position') \
         or (n.has_tag('highway', 'bus_stop')
@@ -97,12 +99,14 @@ def process(config):
         or n.has_tag('railway', 'halt'):
             stations.append(n)
             dubious = False
-        if dubious and not any(['construction' in k for k in n.tags.keys()]):
+        if dubious:
             n.warning('node somehow related to public transport, but how?')
             dubobs.append(n)
 
     for a in areas:
         if len(a.tags) == 0:
+            continue
+        if any([any([s in k for s in config['ignore_objects_with']]) for k in a.tags.keys()]):
             continue
         dubious = True
         if a.has_tag('public_transport', 'platform') \
@@ -120,7 +124,7 @@ def process(config):
         or a.has_tag('aerialway', 'station'):
             stations.append(a)
             dubious = False
-        if dubious and not any(['construction' in k for k in a.tags.keys()]):
+        if dubious:
             a.warning('area somehow related to public transport, but how?')
             dubobs.append(a)
 
