@@ -444,7 +444,8 @@ def process(config):
         keys = plole.tags.keys() & stopo.tags.keys()
         if 'ref:IFOPT' in keys:
             if stopo.tags['ref:IFOPT'].startswith(plole.tags['ref:IFOPT']) \
-            or plole.tags['ref:IFOPT'].startswith(stopo.tags['ref:IFOPT']):
+            or plole.tags['ref:IFOPT'].startswith(stopo.tags['ref:IFOPT']) \
+            or (set(stopo.tags['ref:IFOPT'].split(';')) & set(plole.tags['ref:IFOPT'].split(';'))) - {''} != set():
                 matches.append(1)
             else:
                 matches.append(-1)
@@ -526,7 +527,8 @@ def process(config):
         if 'ref:IFOPT' in keys:
             # note: pole IFOPT may be longer than plafo IFOPT if plafo is used for
             #       multiple poles
-            if pole.tags['ref:IFOPT'].startswith(plafo.tags['ref:IFOPT']):
+            if pole.tags['ref:IFOPT'].startswith(plafo.tags['ref:IFOPT']) \
+            or (set(pole.tags['ref:IFOPT'].split(';')) & set(plafo.tags['ref:IFOPT'].split(';'))) - {''} != set():
                 matches.append(1)
             else:
                 matches.append(-1)
