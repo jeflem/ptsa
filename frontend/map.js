@@ -399,6 +399,8 @@ function dubobsStyler(props, zoom) {
         vis = document.getElementById('dubobs_stopo_no_mods').checked;
     } else if (props['cat'] == 'POLE_NO_MODS') {
         vis = document.getElementById('dubobs_pole_no_mods').checked;
+    } else if (props['cat'] == 'PLATFORM_NO_PT') {
+        vis = document.getElementById('dubobs_platform_no_pt').checked;
     } else if (props['cat'] == 'HOW') {
         vis = document.getElementById('dubobs_how').checked;
     } else {

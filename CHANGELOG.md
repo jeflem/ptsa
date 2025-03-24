@@ -4,6 +4,7 @@
 
 * new feature:
   * dubious objects are split into several categories
+  * treat `highway=platform` objects without `public_transport=platform` and without any related public transport objects as dubious objects
 * algorithm changes:
   * ignore objects with lifecycle prefixes
 * bug fixes:

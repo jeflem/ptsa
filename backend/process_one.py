@@ -827,6 +827,40 @@ def process(config):
     stops['warnings'] = [[] for _ in stops.index]
 
     # -------------------------------------------------------------------------
+    # check for plafo-only stops for which plafo has hw=platform but no pt=platform
+    # (such platforms are considered dubious)
+    
+    to_dubobs = []
+    to_dubobs_cats = []
+    drop_stop_ids = []
+    drop_plole_ids = []
+
+    # get IDs of plafos with relevant tagging
+    plafo_mask = plafos['obj'].apply(lambda o: not o.has_tag('public_transport', 'platform') and o.has_tag('highway', 'platform'))
+    plafo_ids = plafos.index[plafo_mask]
+    
+    # mark stops with relevantly tagged plafo and no other objects
+    for plafo_id in plafo_ids:
+        plafo_stops = stops.loc[stops['plafo_id'] == plafo_id, :]
+        if (plafo_stops['pole_id'] == 0).all() and (plafo_stops['stopo_id'] == 0).all():
+            obj = plafos.loc[plafo_id, 'obj']
+            obj.warning('Platform without public_transport=platform and without related public transport objects!')
+            to_dubobs.append(obj)
+            to_dubobs_cats.append('PLATFORM_NO_PT')
+            drop_stop_ids.extend(list(plafo_stops.index))
+            drop_plole_ids.extend(list(plafo_stops['plole_id']))
+    
+    # drop stops, ploles, plafos
+    if len(to_dubobs) > 0:
+        stops = stops.drop(index=drop_stop_ids)
+        ploles = ploles.drop(index=drop_plole_ids)
+        plafos = plafos.drop(index=[obj.id for obj in to_dubobs])
+            
+    dubobs.extend(to_dubobs)
+    dubobs_cats.extend(to_dubobs_cats)
+    logger.info(f'Found {len(to_dubobs)} platforms not related to public transport.')
+
+    # -------------------------------------------------------------------------
     # make virtual poles
 
     # plafos with stopo
