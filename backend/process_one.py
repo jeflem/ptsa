@@ -581,7 +581,20 @@ def process(config):
 
     get_nearby_nodes(poles, plafos, 'pole', config['plafo_pole_dist'],
                     mods_poles_to_plafos, score_poles_to_plafos)    
-    
+
+    # -------------------------------------------------------------------------
+    # get best matching plafo for each pole (by score)
+
+    poles['best_plafo_id'] = 0
+    poles['best_plafo_score'] = -1
+    for plafo_id in plafos.index:
+        plafo = plafos.loc[plafo_id, :]
+        for pole_id in plafo['pole_ids']:
+            score = plafo['pole_infos'][pole_id]['score']
+            if score > poles.loc[pole_id, 'best_plafo_score']:
+                poles.loc[pole_id, 'best_plafo_id'] = plafo_id
+                poles.loc[pole_id, 'best_plafo_score'] = score
+            
     # -------------------------------------------------------------------------
     # make ploles
 
@@ -611,8 +624,8 @@ def process(config):
         weight = 0.5
         for pole_id in plafo['pole_ids']:
             pole = poles.loc[pole_id, :]
-            if pole['has_plafo']:
-                pole['obj'].warning(f'Pole is already assigned to a platform. Cannot assign pole to platform {plafo_id}.')
+            if plafo_id != pole['best_plafo_id']:
+                pole['obj'].comment(f'Pole matches both platforms {plafo_id} and {pole['best_plafo_id']}. Choosing the second one due to higher score.')
                 continue
 
             # combine mods

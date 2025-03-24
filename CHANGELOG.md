@@ -5,6 +5,7 @@
 * bug fixes:
   * only show relevant modalities for plole-only stops if plole also appears in stops with stop position
   * make additional platform-only plole if pole does not cover all modalities of a platform
+  * if pole matches multiple platforms, choose the match with highest score instead of by chance
 
 ## Release 2025-03-09
 
