@@ -656,6 +656,24 @@ def process(config):
             ploles['maybe_mods'].append(maybe_mods)
             ploles['stopo_ids'].append(stopo_ids)
             ploles['stopo_infos'].append(stopo_infos)
+            
+            # make additional plole from plafo if pole does not cover all plafo mods
+            # note: For instance, the plafo may have mods A and B, but the pole
+            # only has B. Then above code creates plole with plafo and pole for
+            # B and we need an additional plafo-only plole for A. The additional
+            # plole gets all mods, maybe_mods, stopos not covered by the
+            # already created plole.
+            remaining_mods = plafo['mods'] - mods
+            if remaining_mods != set():
+                plafo['obj'].comment(f'Platform has a pole not covering all platform modalities!')
+                ploles['plafo_id'].append(plafo_id)
+                ploles['pole_id'].append(0)
+                ploles['mods'].append(remaining_mods)
+                ploles['maybe_mods'].append(plafo['maybe_mods'] - mods - maybe_mods)
+                remaining_stopo_ids = [id_ for id_ in plafo['stopo_ids'] if id_ not in stopo_ids]
+                remaining_stopo_infos = {id_: plafo['stopo_infos'][id_] for id_ in remaining_stopo_ids}
+                ploles['stopo_ids'].append(remaining_stopo_ids)
+                ploles['stopo_infos'].append(remaining_stopo_infos)
 
     # make ploles data frame including pole-only and plafo-only ploles
     cols = ['mods', 'maybe_mods', 'stopo_ids', 'stopo_infos']
