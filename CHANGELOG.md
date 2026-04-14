@@ -2,11 +2,13 @@
 
 ## Current `dev` branch
 
-* logo and URLs reflect the new hoster HTWD
+* minor changes:
+  * logo and URLs reflect the new hoster HTWD
+  * add tippecanoe to install instructions
 
 ## Release 2025-03-24
 
-* new feature:
+* new features:
   * dubious objects are split into several categories
   * treat `highway=platform` objects without `public_transport=platform` and without any related public transport objects as dubious objects
 * algorithm changes:

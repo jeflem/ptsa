@@ -14,7 +14,7 @@ If you want to have your own PTSA instance, clone the repo and follow instructio
 
 The backend is a Python script which downloads data from OSM and generates vector tiles. Steps for generating tiles:
 
-1. Install the [`geopandas` Python package](https://geopandas.org).
+1. Install the [`geopandas` Python package](https://geopandas.org) and [tippecanoe](https://github.com/felt/tippecanoe).
 2. Rename `config.json.template` in the `backend` directory to `config.json`.
 3. Adjust settings in `config.json` to your needs:
    * Set `overpass_url` to your private Overpass API instance. PTSA will download several gigabytes of data. Don't use a free public instance for such massive downloads. See [Overpass API Podman image](https://github.com/jeflem/overpass-podman) to set up a private instance.
