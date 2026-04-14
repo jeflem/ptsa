@@ -1,5 +1,9 @@
 # Changelog
 
+## Current `dev` branch
+
+* logo and URLs reflect the new hoster HTWD
+
 ## Release 2025-03-24
 
 * new feature:

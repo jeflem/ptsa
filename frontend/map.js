@@ -63,7 +63,7 @@ var ptsaLayer = new L.VectorGrid.Protobuf(
     {
         rendererFactory: L.canvas.tile,
         interactive: true,
-        attribution: '<a href="https://whz.de/~jef19jdw">Jens Flemming</a>',
+        attribution: '<a href="https://www2.htw-dresden.de/~fjeme691/flemming">Jens Flemming</a>',
         maxNativeZoom: 19,
         minZoom: 0,
         pane: map.getPane('overlayPane'),
