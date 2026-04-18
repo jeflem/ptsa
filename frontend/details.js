@@ -78,7 +78,7 @@ if (okay == true) {
         .catch((err) => document.body.innerHTML = ('error: ' + err.message));
 }
 
-const all_mods = ['bus', 'trolley_bus', 'share_taxi', 'tram', 'light_rail', 'train', 'monorail', 'subway', 'funicular', 'ferry', 'aerialway'];
+const all_mods = ['bus', 'trolleybus', 'share_taxi', 'tram', 'light_rail', 'train', 'monorail', 'subway', 'funicular', 'ferry', 'aerialway'];
 
 function osm_link(type, id, text) {
     html = '<a href="https://osm.org/';
