@@ -4,7 +4,7 @@ PTSA is an interactive map showing structure and properties of public transport 
 
 This repo contains the code for extracting data from OSM (backend) and for the interactive map (frontend).
 
-Find the [ready-to-use PTSA map online](https://gauss.whz.de/ptsa) hosted at [Zwickau University of Applied Sciences](https://whz.de). Have a look at [PTSA Help page](https://gauss.whz.de/ptsa/help.html) to better understand what you see there.
+Find the [ready-to-use PTSA map online](https://ptsa.io.informatik.htw-dresden.de) hosted at [Hochschule für Technik und Wirtschaft Dresden - University of Applied Sciences](https://htw-dresden.de/en). Have a look at [PTSA Help page](https://ptsa.io.informatik.htw-dresden.de/help.html) to better understand what you see there.
 
 ## Installation and usage
 
