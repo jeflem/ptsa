@@ -3,6 +3,7 @@
 ## Current `dev` branch
 
 * minor changes:
+  * use more/different colors for stop structures in the map
   * logo and URLs reflect the new hoster HTWD
   * add tippecanoe to install instructions
 

@@ -168,12 +168,12 @@ const warnColors = {
 }
 
 const structColors = {
-    s: '#ffff00',
+    s: '#c0ff00',
     sp: '#0000ff',
-    sf: '#0000ff',
+    sf: '#0080ff',
     spf: '#00ffff',
     p: '#ffff00',
-    f: '#ffff00',
+    f: '#ffc000',
     pf: '#ff0000'
 }
 
